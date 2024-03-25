@@ -109,12 +109,7 @@ int Efficiency(char const* input) {
         }
 
         float maxmuPt = -999;
-        float maxmuPhi = -999;
-        float maxmuEta = -999;
-
         float emuMaxmuPt = -999;
-        float emuMatchedmuPt = -999;
-        float minDR = 10;
 
         /* iterate through muons and find the muon with max pT */
         for (int i = 0; i < *muN; ++i) {
@@ -122,8 +117,6 @@ int Efficiency(char const* input) {
 
             if (muPt[i] > maxmuPt) {
                 maxmuPt = muPt[i];
-                maxmuEta = muEta[i];
-                maxmuPhi = muPhi[i];
             }
         }
 
