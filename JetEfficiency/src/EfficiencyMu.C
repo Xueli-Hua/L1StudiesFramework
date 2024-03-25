@@ -127,7 +127,7 @@ int Efficiency(char const* input) {
             }
         }
 
-        if (maxmuPt > 0) {
+        if (maxmuPt >= threshold) {
             recoHist.Fill(maxmuPt);
 
             /* iterate through emu mus and find matched and unmatched mus with max pT */
@@ -135,19 +135,10 @@ int Efficiency(char const* input) {
                 if ((*emumuPt)[i] > emuMaxmuPt) {
                     emuMaxmuPt = (*emumuPt)[i];
                 }
-
-                if (dr((*emumuEta)[i], (*emumuPhi)[i], maxmuEta, maxmuPhi) < minDR) {
-                    minDR = dr((*emumuEta)[i], (*emumuPhi)[i], maxmuEta, maxmuPhi);
-                    emuMatchedmuPt = (*emumuPt)[i];
-                }
             }
 
             if (emuMaxmuPt >= threshold) {
                 emuHist.Fill(maxmuPt);
-            }
-
-            if (emuMatchedmuPt >= threshold && minDR < 0.4) {
-                emuMatchedHist.Fill(maxmuPt);
             }
         }
     }
