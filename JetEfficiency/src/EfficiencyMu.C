@@ -132,10 +132,10 @@ int Efficiency(char const* input) {
         int NtrkHP = 0;
 
         /* iterate through inner muons and count HP trks */
-        for (int i = 0; i < innermuN; ++i) { if (innerIsHPTrk[i]) NtrkHP++; }
+        for (int i = 0; i < *innermuN; ++i) { if (innerIsHPTrk[i]) NtrkHP++; }
         cout << "Entry: " << i << " / " <<  totalEvents << endl;
         /* iterate through reco muons and do selection */
-        for (int i = 0; i < recomuN; ++i) {
+        for (int i = 0; i < *recomuN; ++i) {
             /*if(
                 //glbmuon1 && 
                 recomuIsTrk[i] &&
