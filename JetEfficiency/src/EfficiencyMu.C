@@ -63,14 +63,14 @@ void GetFiles(char const* input, vector<string>& files) {
     return;
 }
 
-//cout << "test" << endl; 
+//
 
 void FillChain(TChain& chain, vector<string>& files) {
     for (auto file : files) {
         chain.Add(file.c_str());
     }
 }
-//cout << "test" << endl; 
+//
 int Efficiency(char const* input) {
     /* read in all files in the input folder */
     vector<string> files;
@@ -87,19 +87,19 @@ int Efficiency(char const* input) {
     TTreeReaderArray<float> xVtx(trkReader, "xVtx");
     TTreeReaderArray<float> yVtx(trkReader, "yVtx");
     TTreeReaderArray<float> zVtx(trkReader, "zVtx");
-    TTreeReaderArray<int> recomuN(recoMuReader, "nReco");
+    TTreeReaderValue<int> recomuN(recoMuReader, "nReco");
     TTreeReaderArray<float> recomuP(recoMuReader, "recoP");
     TTreeReaderArray<float> recomuPt(recoMuReader, "recoPt");
     TTreeReaderArray<float> recomuEta(recoMuReader, "recoEta");
     TTreeReaderArray<bool> recomuIsTrk(recoMuReader, "recoIsTracker");
     TTreeReaderArray<bool> recomuIDSoft(recoMuReader, "recoIDSoft");
-    TTreeReaderArray<int> innermuN(recoMuReader, "nInner");
+    TTreeReaderValue<int> innermuN(recoMuReader, "nInner");
     TTreeReaderArray<int> innermuTrkL(recoMuReader, "innerTrkLayers");
     TTreeReaderArray<int> innermuPixL(recoMuReader, "innerPixelLayers");
     TTreeReaderArray<float> innerDxy(recoMuReader, "innerDxy");
     TTreeReaderArray<float> innerDz(recoMuReader, "innerDz");
     TTreeReaderArray<bool> innerIsHPTrk(recoMuReader, "innerIsHighPurityTrack");
-    cout << "test" << endl; 
+    
     /* read in emulated mu information */
     TChain l1Chain("l1object/L1UpgradeFlatTree");
     FillChain(l1Chain, files);
@@ -107,7 +107,7 @@ int Efficiency(char const* input) {
     TTreeReaderArray<float> l1muEt(l1Reader, "muonEt");
     TTreeReaderArray<float> l1muEta(l1Reader, "muonEta");
     TTreeReaderValue<vector<unsigned short>> l1muQual(l1Reader, "muonQual");
-    cout << "test" << endl; 
+    
     string seed = "L1_SingleMuonOpen_NotMinimumBiasHF2_AND_BptxAND";
 
     /* create histograms for efficiency plots */
@@ -119,7 +119,7 @@ int Efficiency(char const* input) {
     TH1F recomuHist("recomuHist", "", nbins, min, max);
 
     Long64_t totalEvents = l1Reader.GetEntries(true);
-    cout << "test" << endl; 
+    
     /* read in information from TTrees */
     for (Long64_t i = 0; i < totalEvents; i++) {
         l1Reader.Next(); recoMuReader.Next(); trkReader.Next();
@@ -132,10 +132,10 @@ int Efficiency(char const* input) {
         int NtrkHP = 0;
 
         /* iterate through inner muons and count HP trks */
-        for (int i = 0; i < innermuN[i]; ++i) { if (innerIsHPTrk[i]) NtrkHP++; }
-        cout << "test" << endl; 
+        for (int i = 0; i < innermuN; ++i) { if (innerIsHPTrk[i]) NtrkHP++; }
+        cout << "Entry: " << i << " / " <<  totalEvents << endl;
         /* iterate through reco muons and do selection */
-        for (int i = 0; i < recomuN[i]; ++i) {
+        for (int i = 0; i < recomuN; ++i) {
             /*if(
                 //glbmuon1 && 
                 recomuIsTrk[i] &&
@@ -144,15 +144,15 @@ int Efficiency(char const* input) {
                 innerDxy[i] < 0.3 &&
                 innerDz[i] < 20.
                 ) softmuon = 1;*/
-            cout << "test" << endl; 
+            
             if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i] && NtrkHP==2 && recomuIDSoft[i]) {
                 recomuHist.Fill(recomuPt[i]);
                 if (l1muEt[i]>0) l1muHist.Fill(recomuPt[i]);
             }
-            cout << "test" << endl; 
+            
         }
     }
-    cout << "test" << endl; 
+    
     TGraphAsymmErrors RecoMuEff(&l1muHist, &recomuHist, "cl=0.683 b(1,1) mode");
 
     /* plot the turn ons vs reco mu pt */
