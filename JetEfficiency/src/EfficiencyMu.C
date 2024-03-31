@@ -134,7 +134,7 @@ int Efficiency(char const* input) {
 
         /* iterate through inner muons and count HP trks */
         for (int i = 0; i < *innermuN; ++i) { if (innerIsHPTrk[i]) NtrkHP++; }
-        cout << "Entry: " << i << " / " <<  totalEvents << endl;
+
         /* iterate through reco muons and do selection */
         for (int i = 0; i < *recomuN; ++i) {
             /*if(
@@ -147,7 +147,6 @@ int Efficiency(char const* input) {
                 ) softmuon = 1;*/
 
             if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i] && NtrkHP==2 && recomuIDSoft[i]) {
-                cout << "Entry: " << " test " << endl;
                 recomuHist.Fill(recomuPt[i]);
 
                 for (size_t i = 0; i < (*l1muEt).size(); ++i) {
@@ -157,11 +156,8 @@ int Efficiency(char const* input) {
                 }
                 if (l1MaxMuPt>0) l1muHist.Fill(recomuPt[i]);
             }
-            cout << "Entry: " << " test " << endl;
-            
         }
     }
-    cout << "Entry: " << " test " << endl;
     TGraphAsymmErrors RecoMuEff(&l1muHist, &recomuHist, "cl=0.683 b(1,1) mode");
 
     /* plot the turn ons vs reco mu pt */
