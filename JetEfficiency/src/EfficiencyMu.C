@@ -33,6 +33,11 @@ double dr(float eta1, float phi1, float eta2, float phi2) {
     return TMath::Sqrt(dphi*dphi + deta*deta);
 }
 
+double rho(float vx, float vy, float vz) {
+    float rho = TMath::Sqrt(vx*vx+vy*vy+vz*vz);
+    return rho;
+}
+
 void GetFiles(char const* input, vector<string>& files) {
     TSystemDirectory dir(input, input);
     TList *list = dir.GetListOfFiles();
@@ -70,33 +75,47 @@ int Efficiency(char const* input) {
     GetFiles(input, files);
 
     /* read in reco mu information */
-    TChain offChain("muonAnalyzer/MuonTree");
-    FillChain(offChain, files);
-    TTreeReader offReader(&offChain);
-    TTreeReaderValue<int>   muN(offReader, "nReco");
-    TTreeReaderArray<float> muPt(offReader, "recoPt");
-    TTreeReaderArray<float> muEta(offReader, "recoEta");
-    TTreeReaderArray<float> muPhi(offReader, "recoPhi");
+    TChain recoMuChain("muonAnalyzer/MuonTree");
+    TChain trkChain("PbPbTracks/trackTree");
+    FillChain(recoMuChain, files);
+    FillChain(trkChain, files);
+    TTreeReader recoMuReader(&recoMuChain);
+    TTreeReader trkReader(&trkChain);
+    TTreeReaderValue<vector<bool>> isFake(trkReader, "isFakeVtx");
+    TTreeReaderValue<vector<float>> xVtx(trkReader, "xVtx");
+    TTreeReaderValue<vector<float>> yVtx(trkReader, "yVtx");
+    TTreeReaderValue<vector<float>> zVtx(trkReader, "zVtx");
+    TTreeReaderValue<vector<float>> recomuN(recoMuReader, "nReco");
+    TTreeReaderValue<vector<float>> recomuP(recoMuReader, "recoP");
+    TTreeReaderValue<vector<float>> recomuPt(recoMuReader, "recoPt");
+    TTreeReaderValue<vector<float>> recomuEta(recoMuReader, "recoEta");
+    TTreeReaderValue<vector<bool>> recomuIsTrk(recoMuReader, "recoIsTracker");
+    TTreeReaderValue<vector<bool>> recomuIDSoft(recoMuReader, "recoIDSoft");
+    TTreeReaderValue<vector<int>> innermuN(recoMuReader, "nInner");
+    TTreeReaderValue<vector<int>> innermuTrkL(recoMuReader, "innerTrkLayers");
+    TTreeReaderValue<vector<int>> innermuPixL(recoMuReader, "innerPixelLayers");
+    TTreeReaderValue<vector<float>> innerDxy(recoMuReader, "innerDxy");
+    TTreeReaderValue<vector<float>> innerDz(recoMuReader, "innerDz");
+    TTreeReaderValue<vector<bool>> innerIsHPTrk(recoMuReader, "innerIsHighPurityTrack");
 
     /* read in emulated mu information */
-    TChain emuChain("l1UpgradeEmuTree/L1UpgradeTree");
-    FillChain(emuChain, files);
-    TTreeReader emuReader(&emuChain);
-    TTreeReaderValue<vector<float>> emumuPt(emuReader, "muonEt");
-    TTreeReaderValue<vector<float>> emumuEta(emuReader, "muonEta");
-    TTreeReaderValue<vector<float>> emumuPhi(emuReader, "muonPhi");
+    TChain l1Chain("l1object/L1UpgradeFlatTree");
+    FillChain(l1Chain, files);
+    TTreeReader l1Reader(&l1Chain);
+    TTreeReaderValue<vector<float>> l1muEt(emuReader, "muonEt");
+    TTreeReaderValue<vector<float>> l1muEta(emuReader, "muonEta");
+    TTreeReaderValue<vector<unsigned short>> l1muQual(emuReader, "muonQual");
 
-    string seed = "L1_SingleMu3_BptxAND";
-    float threshold = 3;
+    string seed = "L1_SingleMuonOpen_NotMinimumBiasHF2_AND_BptxAND";
+    float threshold = 0;
 
     /* create histograms for efficiency plots */
     int nbins = 25;
     float min = 0;
     float max = 200;
 
-    TH1F emuHist("emuHist", "", nbins, min, max);
-    TH1F emuMatchedHist("emuMatchedHist", "", nbins, min, max);
-    TH1F recoHist("recoHist", "", nbins, min, max);
+    TH1F l1muHist("l1muHist", "", nbins, min, max);
+    TH1F recomuHist("recomuHist", "", nbins, min, max);
 
     Long64_t totalEvents = emuReader.GetEntries(true);
 
@@ -108,63 +127,51 @@ int Efficiency(char const* input) {
             cout << "Entry: " << i << " / " <<  totalEvents << endl; 
         }
 
-        float maxmuPt = -999;
-        float emuMaxmuPt = -999;
+        bool soft = 0;
+        Int NtrkHP = 0;
 
-        /* iterate through muons and find the muon with max pT */
-        for (int i = 0; i < *muN; ++i) {
-            if (TMath::Abs(muEta[i]) > 2) { continue; }
+        /* iterate through inner muons and count HP trks */
+        for (int i = 0; i < *innermuN; ++i) { if (innerIsHPTrk[i]) NtrkHP++; }
 
-            if (muPt[i] > maxmuPt) {
-                maxmuPt = muPt[i];
-            }
-        }
+        /* iterate through reco muons and do selection */
+        for (int i = 0; i < *recomuN; ++i) {
+            if(
+                //glbmuon1 && 
+                recomuIsTrk[i] &&
+                innermuTrkL[i] > 5 &&
+                innermuPixL[i] > 0 &&
+                innerDxy[i] < 0.3 &&
+                innerDz[i] < 20.
+                ) softmuon = 1;
 
-        if (maxmuPt >= threshold) {
-            recoHist.Fill(maxmuPt);
-
-            /* iterate through emu mus and find matched and unmatched mus with max pT */
-            for (size_t i = 0; i < (*emumuPt).size(); ++i) {
-                if ((*emumuPt)[i] > emuMaxmuPt) {
-                    emuMaxmuPt = (*emumuPt)[i];
-                }
-            }
-
-            if (emuMaxmuPt >= threshold) {
-                emuHist.Fill(maxmuPt);
+            if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk && NtrkHP==2 && recomuIDSoft[i]) {
+                recomuHist.Fill(recomuPt);
+                if (l1muEt[i]>0) l1muHist.Fill(recomuPt);
             }
         }
     }
 
-    TGraphAsymmErrors emuRecoEff(&emuHist, &recoHist, "cl=0.683 b(1,1) mode");
-    TGraphAsymmErrors emuRecoMatchedEff(&emuMatchedHist, &recoHist, "cl=0.683 b(1,1) mode");
+    TGraphAsymmErrors RecoMuEff(&l1muHist, &recomuHist, "cl=0.683 b(1,1) mode");
 
     /* plot the turn ons vs reco mu pt */
     TCanvas recoCanvas("recoCanvas", "", 0, 0, 500, 500);
     recoCanvas.cd();
 
-    emuRecoMatchedEff.GetXaxis()->SetTitle("Reco #mu pT (GeV)");
-    emuRecoMatchedEff.GetXaxis()->CenterTitle(true);
-    emuRecoMatchedEff.GetYaxis()->SetTitle("Efficiency");
-    emuRecoMatchedEff.GetYaxis()->CenterTitle(true);
+    RecoMuEff.GetXaxis()->SetTitle("Reco #mu pT (GeV)");
+    RecoMuEff.GetXaxis()->CenterTitle(true);
+    RecoMuEff.GetYaxis()->SetTitle("Efficiency");
+    RecoMuEff.GetYaxis()->CenterTitle(true);
 
-    emuRecoMatchedEff.SetMarkerColor(46);
-    emuRecoMatchedEff.SetLineColor(46);
-    emuRecoMatchedEff.SetMarkerSize(0.5);
-    emuRecoMatchedEff.SetMarkerStyle(20);
-    emuRecoMatchedEff.Draw();
-
-    emuRecoEff.SetMarkerColor(30);
-    emuRecoEff.SetLineColor(30);
-    emuRecoEff.SetMarkerSize(0.5);
-    emuRecoEff.SetMarkerStyle(20);
-    emuRecoEff.Draw("LP SAME");
+    RecoMuEff.SetMarkerColor(46);
+    RecoMuEff.SetLineColor(46);
+    RecoMuEff.SetMarkerSize(0.5);
+    RecoMuEff.SetMarkerStyle(20);
+    RecoMuEff.Draw();
 
     TLegend recoLegend(0.53, 0.12 ,0.88, 0.3);
     recoLegend.SetTextSize(0.03);
     recoLegend.SetHeader(seed.c_str());
-    recoLegend.AddEntry(&emuRecoEff, "Not #DeltaR Matched", "lep");
-    recoLegend.AddEntry(&emuRecoMatchedEff, "#DeltaR Matched", "lep");
+    recoLegend.AddEntry(&RecoMuEff, "#DeltaR Matched", "lep");
     recoLegend.Draw();
 
     recoCanvas.SaveAs("RecomuEfficiency.pdf");
@@ -172,9 +179,8 @@ int Efficiency(char const* input) {
     /* save histograms to file so I can look at them */
     TFile* fout = new TFile("muhistograms.root", "recreate");
 
-    emuHist.Write();
-    emuMatchedHist.Write();
-    recoHist.Write();
+    l1muHist.Write();
+    recomuHist.Write();
 
     fout->Close();
    
