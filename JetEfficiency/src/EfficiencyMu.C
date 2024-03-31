@@ -104,10 +104,9 @@ int Efficiency(char const* input) {
     TTreeReader l1Reader(&l1Chain);
     TTreeReaderArray<float> l1muEt(l1Reader, "muonEt");
     TTreeReaderArray<float> l1muEta(l1Reader, "muonEta");
-    TTreeReaderValue<vector<unsigned short>> l1muQual(emuReader, "muonQual");
+    TTreeReaderValue<vector<unsigned short>> l1muQual(l1Reader, "muonQual");
 
     string seed = "L1_SingleMuonOpen_NotMinimumBiasHF2_AND_BptxAND";
-    float threshold = 0;
 
     /* create histograms for efficiency plots */
     int nbins = 25;
@@ -121,7 +120,7 @@ int Efficiency(char const* input) {
 
     /* read in information from TTrees */
     for (Long64_t i = 0; i < totalEvents; i++) {
-        emuReader.Next(); offReader.Next();
+        l1Reader.Next(); recoMuReader.Next(); trkReader.Next();
 
         if (i % 20000 == 0) { 
             cout << "Entry: " << i << " / " <<  totalEvents << endl; 
