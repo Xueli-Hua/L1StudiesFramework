@@ -145,8 +145,8 @@ int Efficiency(char const* input) {
                 ) softmuon = 1;
 
             if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk && NtrkHP==2 && recomuIDSoft[i]) {
-                recomuHist.Fill(recomuPt);
-                if (l1muEt[i]>0) l1muHist.Fill(recomuPt);
+                recomuHist.Fill(recomuPt[i]);
+                if (l1muEt[i]>0) l1muHist.Fill(recomuPt[i]);
             }
         }
     }
