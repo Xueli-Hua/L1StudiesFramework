@@ -104,8 +104,8 @@ int Efficiency(char const* input) {
     TChain l1Chain("l1object/L1UpgradeFlatTree");
     FillChain(l1Chain, files);
     TTreeReader l1Reader(&l1Chain);
-    TTreeReaderArray<float> l1muEt(l1Reader, "muonEt");
-    TTreeReaderArray<float> l1muEta(l1Reader, "muonEta");
+    TTreeReaderValue<vector<float>> l1muEt(l1Reader, "muonEt");
+    TTreeReaderValue<vector<float>> l1muEta(l1Reader, "muonEta");
     TTreeReaderValue<vector<unsigned short>> l1muQual(l1Reader, "muonQual");
     
     string seed = "L1_SingleMuonOpen_NotMinimumBiasHF2_AND_BptxAND";
@@ -150,9 +150,9 @@ int Efficiency(char const* input) {
                 cout << "Entry: " << " test " << endl;
                 recomuHist.Fill(recomuPt[i]);
 
-                for (size_t i = 0; i < l1muEt.size(); ++i) {
-                    if (l1muEt[i] > l1MaxMuPt) {
-                        l1MaxMuPt = l1muEt[i];
+                for (size_t i = 0; i < (*l1muEt).size(); ++i) {
+                    if ((*l1muEt)[i] > l1MaxMuPt) {
+                        l1MaxMuPt = (*l1muEt)[i];
                     }
                 }
                 if (l1MaxMuPt>0) l1muHist.Fill(recomuPt[i]);
