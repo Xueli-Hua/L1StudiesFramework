@@ -81,29 +81,29 @@ int Efficiency(char const* input) {
     FillChain(trkChain, files);
     TTreeReader recoMuReader(&recoMuChain);
     TTreeReader trkReader(&trkChain);
-    TTreeReaderValue<vector<bool>> isFake(trkReader, "isFakeVtx");
-    TTreeReaderValue<vector<float>> xVtx(trkReader, "xVtx");
-    TTreeReaderValue<vector<float>> yVtx(trkReader, "yVtx");
-    TTreeReaderValue<vector<float>> zVtx(trkReader, "zVtx");
-    TTreeReaderValue<vector<float>> recomuN(recoMuReader, "nReco");
-    TTreeReaderValue<vector<float>> recomuP(recoMuReader, "recoP");
-    TTreeReaderValue<vector<float>> recomuPt(recoMuReader, "recoPt");
-    TTreeReaderValue<vector<float>> recomuEta(recoMuReader, "recoEta");
-    TTreeReaderValue<vector<bool>> recomuIsTrk(recoMuReader, "recoIsTracker");
-    TTreeReaderValue<vector<bool>> recomuIDSoft(recoMuReader, "recoIDSoft");
-    TTreeReaderValue<vector<int>> innermuN(recoMuReader, "nInner");
-    TTreeReaderValue<vector<int>> innermuTrkL(recoMuReader, "innerTrkLayers");
-    TTreeReaderValue<vector<int>> innermuPixL(recoMuReader, "innerPixelLayers");
-    TTreeReaderValue<vector<float>> innerDxy(recoMuReader, "innerDxy");
-    TTreeReaderValue<vector<float>> innerDz(recoMuReader, "innerDz");
-    TTreeReaderValue<vector<bool>> innerIsHPTrk(recoMuReader, "innerIsHighPurityTrack");
+    TTreeReaderArray<bool> isFake(trkReader, "isFakeVtx");
+    TTreeReaderArray<float> xVtx(trkReader, "xVtx");
+    TTreeReaderArray<float> yVtx(trkReader, "yVtx");
+    TTreeReaderArray<float> zVtx(trkReader, "zVtx");
+    TTreeReaderArray<float> recomuN(recoMuReader, "nReco");
+    TTreeReaderArray<float> recomuP(recoMuReader, "recoP");
+    TTreeReaderArray<float> recomuPt(recoMuReader, "recoPt");
+    TTreeReaderArray<float> recomuEta(recoMuReader, "recoEta");
+    TTreeReaderArray<bool> recomuIsTrk(recoMuReader, "recoIsTracker");
+    TTreeReaderArray<bool> recomuIDSoft(recoMuReader, "recoIDSoft");
+    TTreeReaderArray<int> innermuN(recoMuReader, "nInner");
+    TTreeReaderArray<int> innermuTrkL(recoMuReader, "innerTrkLayers");
+    TTreeReaderArray<int> innermuPixL(recoMuReader, "innerPixelLayers");
+    TTreeReaderArray<float> innerDxy(recoMuReader, "innerDxy");
+    TTreeReaderArray<float> innerDz(recoMuReader, "innerDz");
+    TTreeReaderArray<bool> innerIsHPTrk(recoMuReader, "innerIsHighPurityTrack");
 
     /* read in emulated mu information */
     TChain l1Chain("l1object/L1UpgradeFlatTree");
     FillChain(l1Chain, files);
     TTreeReader l1Reader(&l1Chain);
-    TTreeReaderValue<vector<float>> l1muEt(emuReader, "muonEt");
-    TTreeReaderValue<vector<float>> l1muEta(emuReader, "muonEta");
+    TTreeReaderArray<float> l1muEt(emuReader, "muonEt");
+    TTreeReaderArray<float> l1muEta(emuReader, "muonEta");
     TTreeReaderValue<vector<unsigned short>> l1muQual(emuReader, "muonQual");
 
     string seed = "L1_SingleMuonOpen_NotMinimumBiasHF2_AND_BptxAND";
