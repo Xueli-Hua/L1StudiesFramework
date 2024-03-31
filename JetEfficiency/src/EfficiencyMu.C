@@ -63,14 +63,14 @@ void GetFiles(char const* input, vector<string>& files) {
     return;
 }
 
-std::cout << "test" << std::endl; 
+cout << "test" << endl; 
 
 void FillChain(TChain& chain, vector<string>& files) {
     for (auto file : files) {
         chain.Add(file.c_str());
     }
 }
-std::cout << "test" << std::endl; 
+cout << "test" << endl; 
 int Efficiency(char const* input) {
     /* read in all files in the input folder */
     vector<string> files;
@@ -99,7 +99,7 @@ int Efficiency(char const* input) {
     TTreeReaderArray<float> innerDxy(recoMuReader, "innerDxy");
     TTreeReaderArray<float> innerDz(recoMuReader, "innerDz");
     TTreeReaderArray<bool> innerIsHPTrk(recoMuReader, "innerIsHighPurityTrack");
-    std::cout << "test" << std::endl; 
+    cout << "test" << endl; 
     /* read in emulated mu information */
     TChain l1Chain("l1object/L1UpgradeFlatTree");
     FillChain(l1Chain, files);
@@ -107,7 +107,7 @@ int Efficiency(char const* input) {
     TTreeReaderArray<float> l1muEt(l1Reader, "muonEt");
     TTreeReaderArray<float> l1muEta(l1Reader, "muonEta");
     TTreeReaderValue<vector<unsigned short>> l1muQual(l1Reader, "muonQual");
-    std::cout << "test" << std::endl; 
+    cout << "test" << endl; 
     string seed = "L1_SingleMuonOpen_NotMinimumBiasHF2_AND_BptxAND";
 
     /* create histograms for efficiency plots */
@@ -119,7 +119,7 @@ int Efficiency(char const* input) {
     TH1F recomuHist("recomuHist", "", nbins, min, max);
 
     Long64_t totalEvents = l1Reader.GetEntries(true);
-    std::cout << "test" << std::endl; 
+    cout << "test" << endl; 
     /* read in information from TTrees */
     for (Long64_t i = 0; i < totalEvents; i++) {
         l1Reader.Next(); recoMuReader.Next(); trkReader.Next();
@@ -151,7 +151,7 @@ int Efficiency(char const* input) {
             }
         }
     }
-    std::cout << "test" << std::endl; 
+    cout << "test" << endl; 
     TGraphAsymmErrors RecoMuEff(&l1muHist, &recomuHist, "cl=0.683 b(1,1) mode");
 
     /* plot the turn ons vs reco mu pt */
