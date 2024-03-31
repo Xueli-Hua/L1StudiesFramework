@@ -128,6 +128,7 @@ int Efficiency(char const* input) {
             cout << "Entry: " << i << " / " <<  totalEvents << endl; 
         }
 
+        float l1MaxMuPt = -999;
         //bool softmuon = 0;
         int NtrkHP = 0;
 
@@ -144,11 +145,19 @@ int Efficiency(char const* input) {
                 innerDxy[i] < 0.3 &&
                 innerDz[i] < 20.
                 ) softmuon = 1;*/
-            
+
             if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i] && NtrkHP==2 && recomuIDSoft[i]) {
+                cout << "Entry: " << " test " << endl;
                 recomuHist.Fill(recomuPt[i]);
-                if (l1muEt[i]>0) l1muHist.Fill(recomuPt[i]);
+
+                for (size_t i = 0; i < l1muEt.size(); ++i) {
+                    if (l1muEt[i] > l1MaxMuPt) {
+                        l1MaxMuPt = l1muEt[i];
+                    }
+                }
+                if (l1MaxMuPt>0) l1muHist.Fill(recomuPt[i]);
             }
+            cout << "Entry: " << " test " << endl;
             
         }
     }
