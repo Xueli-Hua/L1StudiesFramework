@@ -116,7 +116,7 @@ int Efficiency(char const* input) {
     float max = 10;
 
     TH1F l1muHist("l1muHist", "", nbins, min, max);
-    TH1F l1onmuHist("l1onmuHist", "", nbins, min, max);
+    TH1F l1MaxmuHist("l1MaxmuHist", "", nbins, min, max);
     TH1F recomuHist("recomuHist", "", nbins, min, max);
 
     Long64_t totalEvents = l1Reader.GetEntries(true);
@@ -154,7 +154,7 @@ int Efficiency(char const* input) {
                     if ((*l1muEt)[i] > l1MaxMuPt) {
                         l1MaxMuPt = (*l1muEt)[i];
                     }
-                    l1onmuHist.Fill(l1MaxMuPt);
+                    l1MaxmuHist.Fill(l1MaxMuPt);
                 }
                 if (l1MaxMuPt>0) l1muHist.Fill(recomuPt[i]);
             }
@@ -189,7 +189,7 @@ int Efficiency(char const* input) {
     TFile* fout = new TFile("muhistograms.root", "recreate");
 
     l1muHist.Write();
-    l1onmuHist.Write();
+    l1MaxmuHist.Write();
     recomuHist.Write();
 
     fout->Close();
