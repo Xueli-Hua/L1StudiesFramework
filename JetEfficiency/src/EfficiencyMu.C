@@ -85,13 +85,13 @@ int Efficiency(char const* input) {
     TTreeReaderArray<float> xVtx(trkReader, "xVtx");
     TTreeReaderArray<float> yVtx(trkReader, "yVtx");
     TTreeReaderArray<float> zVtx(trkReader, "zVtx");
-    TTreeReaderArray<float> recomuN(recoMuReader, "nReco");
+    TTreeReaderValue<int> recomuN(recoMuReader, "nReco");
     TTreeReaderArray<float> recomuP(recoMuReader, "recoP");
     TTreeReaderArray<float> recomuPt(recoMuReader, "recoPt");
     TTreeReaderArray<float> recomuEta(recoMuReader, "recoEta");
     TTreeReaderArray<bool> recomuIsTrk(recoMuReader, "recoIsTracker");
     TTreeReaderArray<bool> recomuIDSoft(recoMuReader, "recoIDSoft");
-    TTreeReaderArray<int> innermuN(recoMuReader, "nInner");
+    TTreeReaderValue<int> innermuN(recoMuReader, "nInner");
     TTreeReaderArray<int> innermuTrkL(recoMuReader, "innerTrkLayers");
     TTreeReaderArray<int> innermuPixL(recoMuReader, "innerPixelLayers");
     TTreeReaderArray<float> innerDxy(recoMuReader, "innerDxy");
