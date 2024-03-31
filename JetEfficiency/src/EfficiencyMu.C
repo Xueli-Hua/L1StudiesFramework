@@ -126,7 +126,7 @@ int Efficiency(char const* input) {
             cout << "Entry: " << i << " / " <<  totalEvents << endl; 
         }
 
-        bool softmuon = 0;
+        //bool softmuon = 0;
         int NtrkHP = 0;
 
         /* iterate through inner muons and count HP trks */
@@ -134,14 +134,14 @@ int Efficiency(char const* input) {
 
         /* iterate through reco muons and do selection */
         for (int i = 0; i < recomuN[i]; ++i) {
-            if(
+            /*if(
                 //glbmuon1 && 
                 recomuIsTrk[i] &&
                 innermuTrkL[i] > 5 &&
                 innermuPixL[i] > 0 &&
                 innerDxy[i] < 0.3 &&
                 innerDz[i] < 20.
-                ) softmuon = 1;
+                ) softmuon = 1;*/
 
             if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i] && NtrkHP==2 && recomuIDSoft[i]) {
                 recomuHist.Fill(recomuPt[i]);
