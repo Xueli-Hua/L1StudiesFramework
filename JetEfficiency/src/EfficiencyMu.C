@@ -152,7 +152,7 @@ int Efficiency(char const* input) {
             
         }
     }
-    
+    cout << "Entry: " << " test " << endl;
     TGraphAsymmErrors RecoMuEff(&l1muHist, &recomuHist, "cl=0.683 b(1,1) mode");
 
     /* plot the turn ons vs reco mu pt */
