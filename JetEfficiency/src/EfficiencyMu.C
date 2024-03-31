@@ -116,7 +116,7 @@ int Efficiency(char const* input) {
     TH1F l1muHist("l1muHist", "", nbins, min, max);
     TH1F recomuHist("recomuHist", "", nbins, min, max);
 
-    Long64_t totalEvents = emuReader.GetEntries(true);
+    Long64_t totalEvents = l1Reader.GetEntries(true);
 
     /* read in information from TTrees */
     for (Long64_t i = 0; i < totalEvents; i++) {
