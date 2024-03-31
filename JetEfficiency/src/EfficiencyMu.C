@@ -63,14 +63,14 @@ void GetFiles(char const* input, vector<string>& files) {
     return;
 }
 
-cout << "test" << endl; 
+//cout << "test" << endl; 
 
 void FillChain(TChain& chain, vector<string>& files) {
     for (auto file : files) {
         chain.Add(file.c_str());
     }
 }
-cout << "test" << endl; 
+//cout << "test" << endl; 
 int Efficiency(char const* input) {
     /* read in all files in the input folder */
     vector<string> files;
