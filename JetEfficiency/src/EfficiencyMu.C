@@ -135,6 +135,7 @@ int Efficiency(char const* input) {
 
         /* iterate through inner muons and count HP trks */
         for (int i = 0; i < *innermuN; ++i) { if (innerIsHPTrk[i]) NtrkHP++; }
+        if (NtrkHP!=2) continue;
 
         /* iterate through reco muons and do selection */
         for (int i = 0; i < *recomuN; ++i) {
@@ -147,7 +148,7 @@ int Efficiency(char const* input) {
                 innerDz[i] < 20.
                 ) softmuon = 1;*/
 
-            if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i] && NtrkHP==2 && recomuIDSoft[i]) {
+            if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i] && recomuIDSoft[i]) {
                 recomuHist.Fill(recomuPt[i]);
 
                 for (size_t j = 0; j < (*l1muEt).size(); ++j) {
