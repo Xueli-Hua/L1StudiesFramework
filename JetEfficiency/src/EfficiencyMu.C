@@ -111,9 +111,9 @@ int Efficiency(char const* input) {
     string seed = "L1_SingleMuonOpen_NotMinimumBiasHF2_AND_BptxAND";
 
     /* create histograms for efficiency plots */
-    int nbins = 25;
+    int nbins = 50;
     float min = 0;
-    float max = 200;
+    float max = 10;
 
     TH1F l1muHist("l1muHist", "", nbins, min, max);
     TH1F recomuHist("recomuHist", "", nbins, min, max);
