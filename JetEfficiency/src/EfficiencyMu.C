@@ -102,8 +102,8 @@ int Efficiency(char const* input) {
     TChain l1Chain("l1object/L1UpgradeFlatTree");
     FillChain(l1Chain, files);
     TTreeReader l1Reader(&l1Chain);
-    TTreeReaderArray<float> l1muEt(emuReader, "muonEt");
-    TTreeReaderArray<float> l1muEta(emuReader, "muonEta");
+    TTreeReaderArray<float> l1muEt(l1Reader, "muonEt");
+    TTreeReaderArray<float> l1muEta(l1Reader, "muonEta");
     TTreeReaderValue<vector<unsigned short>> l1muQual(emuReader, "muonQual");
 
     string seed = "L1_SingleMuonOpen_NotMinimumBiasHF2_AND_BptxAND";
