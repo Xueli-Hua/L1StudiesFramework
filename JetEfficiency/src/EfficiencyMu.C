@@ -150,8 +150,8 @@ int Efficiency(char const* input) {
             if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i] && NtrkHP==2 && recomuIDSoft[i]) {
                 recomuHist.Fill(recomuPt[i]);
 
-                for (size_t i = 0; i < (*l1muEt).size(); ++i) {
-                    if ((*l1muEt)[i] > l1MaxMuPt) { l1MaxMuPt = (*l1muEt)[i]; }
+                for (size_t j = 0; j < (*l1muEt).size(); ++j) {
+                    if ((*l1muEt)[j] > l1MaxMuPt) { l1MaxMuPt = (*l1muEt)[j]; }
                 }
                 l1MaxmuHist.Fill(l1MaxMuPt);
                 if (l1MaxMuPt>0) l1muHist.Fill(recomuPt[i]);
