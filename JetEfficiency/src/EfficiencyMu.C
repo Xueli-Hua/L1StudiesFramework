@@ -155,7 +155,8 @@ int Efficiency(char const* input) {
                     if ((*l1muEt)[j] > l1MaxMuPt) { l1MaxMuPt = (*l1muEt)[j]; }
                 }
                 l1MaxmuHist.Fill(l1MaxMuPt);
-                if (l1MaxMuPt>0) l1muHist.Fill(recomuPt[i]);
+                //if (l1MaxMuPt>0) 
+                l1muHist.Fill(recomuPt[i]);
             }
         }
     }
