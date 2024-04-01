@@ -159,7 +159,8 @@ int Efficiency(char const* input) {
             }
         }
     }
-    TGraphAsymmErrors RecoMuEff(&l1muHist, &recomuHist, "cl=0.683 b(1,1) mode");
+    //TGraphAsymmErrors RecoMuEff(&l1muHist, &recomuHist, "cl=0.683 b(1,1) mode");
+    TGraphAsymmErrors RecoMuEff(&l1muHist, &recomuHist);
 
     /* plot the turn ons vs reco mu pt */
     TCanvas recoCanvas("recoCanvas", "", 0, 0, 500, 500);
