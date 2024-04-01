@@ -111,7 +111,7 @@ int Efficiency(char const* input) {
     string seed = "L1_SingleMuonOpen_NotMinimumBiasHF2_AND_BptxAND";
 
     /* create histograms for efficiency plots */
-    int nbins = 50;
+    int nbins = 25;
     float min = 0;
     float max = 10;
 
@@ -131,6 +131,7 @@ int Efficiency(char const* input) {
 
         //bool softmuon = 0;
         int NtrkHP = 0;
+        float l1MaxMuPt = -999;
 
         /* iterate through inner muons and count HP trks */
         for (int i = 0; i < *innermuN; ++i) { if (innerIsHPTrk[i]) NtrkHP++; }
@@ -148,8 +149,8 @@ int Efficiency(char const* input) {
                 ) softmuon = 1;*/
 
             if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i] && recomuIDSoft[i]) {
-                recomuHist.Fill(recomuPt[i]);
-                float l1MaxMuPt = -999;
+                if (innerIsHPTrk[i]) recomuHist.Fill(recomuPt[i]);
+                
                 for (size_t j = 0; j < (*l1muEt).size(); ++j) {
                     if ((*l1muEt)[j] > l1MaxMuPt) { l1MaxMuPt = (*l1muEt)[j]; }
                 }
@@ -175,10 +176,10 @@ int Efficiency(char const* input) {
     RecoMuEff.SetMarkerStyle(20);
     RecoMuEff.Draw();
 
-    TLegend recoLegend(0.53, 0.12 ,0.88, 0.3);
+    TLegend recoLegend(0.43, 0.12 ,0.88, 0.3);
     recoLegend.SetTextSize(0.03);
     recoLegend.SetHeader(seed.c_str());
-    recoLegend.AddEntry(&RecoMuEff, "#DeltaR Matched", "lep");
+    //recoLegend.AddEntry(&RecoMuEff, "#DeltaR Matched", "lep");
     recoLegend.Draw();
 
     recoCanvas.SaveAs("RecomuEfficiency.pdf");
