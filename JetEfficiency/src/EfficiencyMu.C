@@ -133,10 +133,6 @@ int Efficiency(char const* input) {
         int NtrkHP = 0;
         float l1MaxMuPt = -999;
 
-        /* iterate through inner muons and count HP trks */
-        for (int i = 0; i < *innermuN; ++i) { if (innerIsHPTrk[i]) NtrkHP++; }
-        if (NtrkHP!=2) continue;
-
         /* iterate through reco muons and do selection */
         for (int i = 0; i < *recomuN; ++i) {
             /*if(
@@ -147,15 +143,22 @@ int Efficiency(char const* input) {
                 innerDxy[i] < 0.3 &&
                 innerDz[i] < 20.
                 ) softmuon = 1;*/
+            if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i]) { for (int i = 0; i < *innermuN; ++i) { if (innerIsHPTrk[i]) NtrkHP++; } }
+        }
+        if (NtrkHP!=2) continue;
 
-            if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i] && recomuIDSoft[i]) {
-                if (innerIsHPTrk[i]) recomuHist.Fill(recomuPt[i]);
-                
-                for (size_t j = 0; j < (*l1muEt).size(); ++j) {
-                    if ((*l1muEt)[j] > l1MaxMuPt) { l1MaxMuPt = (*l1muEt)[j]; }
+        /* iterate through l1object muons and find max et */
+        for (size_t j = 0; j < (*l1muEt).size(); ++j) { if ((*l1muEt)[j] > l1MaxMuPt) { l1MaxMuPt = (*l1muEt)[j]; } }
+        l1MaxmuHist.Fill(l1MaxMuPt);
+
+        for (int i = 0; i < *recomuN; ++i) {
+            if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i]) { 
+                for (int i = 0; i < *innermuN; ++i) { 
+                    if (innerIsHPTrk[i] && recomuIDSoft[i]) {
+                        recomuHist.Fill(recomuPt[i]); 
+                        if (l1MaxMuPt>0) l1muHist.Fill(recomuPt[i]);
+                    }
                 }
-                l1MaxmuHist.Fill(l1MaxMuPt);
-                if (l1MaxMuPt>0) l1muHist.Fill(recomuPt[i]);
             }
         }
     }
