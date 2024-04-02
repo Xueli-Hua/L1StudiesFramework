@@ -185,6 +185,8 @@ int Efficiency(char const* input) {
     //recoLegend.AddEntry(&RecoMuEff, "#DeltaR Matched", "lep");
     recoLegend.Draw();
 
+    TLine recoline(0,1,10,1);
+
     recoCanvas.SaveAs("RecomuEfficiency.pdf");
 
     /* save histograms to file so I can look at them */
