@@ -143,7 +143,7 @@ int Efficiency(char const* input) {
                 innerDxy[i] < 0.3 &&
                 innerDz[i] < 20.
                 ) softmuon = 1;*/
-            if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i]) { innerIsHPTrk[i] NtrkHP++; }
+            if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i] && innerIsHPTrk[i]) NtrkHP++;
         }
         if (NtrkHP!=2) continue;
 
@@ -152,11 +152,9 @@ int Efficiency(char const* input) {
         l1MaxmuHist.Fill(l1MaxMuPt);
 
         for (int i = 0; i < *recomuN; ++i) {
-            if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i]) { 
-                if (innerIsHPTrk[i] && recomuIDSoft[i]) {
-                    recomuHist.Fill(recomuPt[i]); 
-                    if (l1MaxMuPt>0) l1muHist.Fill(recomuPt[i]);
-                }
+            if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i] && innerIsHPTrk[i] && recomuIDSoft[i]) { 
+                recomuHist.Fill(recomuPt[i]); 
+                if (l1MaxMuPt>0) l1muHist.Fill(recomuPt[i]);
             }
         }
     }
