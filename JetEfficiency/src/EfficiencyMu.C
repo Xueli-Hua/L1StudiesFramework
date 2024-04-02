@@ -117,7 +117,7 @@ int Efficiency(char const* input) {
     float max = 10;
 
     TH1F l1muHist("l1muHist", "", nbins, min, max);
-    TH1F l1MaxmuHist("l1MaxmuHist", "", 50, -10, 10);
+    TH1F l1MaxmuHist();
     TH1F recomuHist("recomuHist", "", nbins, min, max);
 
     Long64_t totalEvents = l1Reader.GetEntries(true);
