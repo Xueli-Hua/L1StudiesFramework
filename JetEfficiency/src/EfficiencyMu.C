@@ -175,7 +175,7 @@ int Efficiency(char const* input) {
     RecoMuEff.SetLineColor(46);
     RecoMuEff.SetMarkerSize(0.5);
     RecoMuEff.SetMarkerStyle(20);
-    RecoMuEff.Draw();
+    RecoMuEff.Draw("AP");
 
     TLegend recoLegend(0.13, 0.12 ,0.88, 0.2);
     recoLegend.SetBorderSize(0);
