@@ -18,6 +18,7 @@ Output: A plot of the jet turn-ons with and with out L1 dR matching vs calo jet 
 #include "TGraphAsymmErrors.h"
 #include "TCanvas.h"
 #include "TLegend.h"
+#include "TLine.h"
 
 #include <string>
 #include <vector>
@@ -186,6 +187,8 @@ int Efficiency(char const* input) {
     recoLegend.Draw();
 
     TLine recoline(0,1,10,1);
+    recoline.SetLineColor(46);
+    recoline.Draw();
 
     recoCanvas.SaveAs("RecomuEfficiency.pdf");
 
