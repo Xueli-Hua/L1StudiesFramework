@@ -117,7 +117,7 @@ int Efficiency(char const* input) {
     float max = 10;
 
     TH1F l1muHist("l1muHist", "", nbins, min, max);
-    TH1F l1MaxmuHist("l1MaxmuHist","",2,-1000,1000);
+    TH1F l1MaxmuHist("l1MaxmuHist","",10,-1000,1000);
     TH1F recomuHist("recomuHist", "", nbins, min, max);
 
     Long64_t totalEvents = l1Reader.GetEntries(true);
@@ -170,7 +170,7 @@ int Efficiency(char const* input) {
     RecoMuEff.GetXaxis()->CenterTitle(true);
     RecoMuEff.GetYaxis()->SetTitle("Efficiency");
     RecoMuEff.GetYaxis()->CenterTitle(true);
-    //RecoMuEff.GetXaxis()->SetRange(0,11);
+    RecoMuEff.GetXaxis()->SetLimits(0,11);
     RecoMuEff.SetMinimum(0);
 
     RecoMuEff.SetMarkerColor(46);
@@ -187,7 +187,7 @@ int Efficiency(char const* input) {
     //recoLegend.AddEntry(&RecoMuEff, "#DeltaR Matched", "lep");
     recoLegend.Draw();
 
-    TLine recoline(0,1,12,1);
+    TLine recoline(0,1,11,1);
     recoline.SetLineColor(46);
     recoline.Draw();
 
