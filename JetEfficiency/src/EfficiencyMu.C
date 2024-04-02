@@ -170,7 +170,7 @@ int Efficiency(char const* input) {
     RecoMuEff.GetXaxis()->CenterTitle(true);
     RecoMuEff.GetYaxis()->SetTitle("Efficiency");
     RecoMuEff.GetYaxis()->CenterTitle(true);
-    RecoMuEff.GetXaxis()->SetRange(0,11);
+    //RecoMuEff.GetXaxis()->SetRange(0,11);
     RecoMuEff.SetMinimum(0);
 
     RecoMuEff.SetMarkerColor(46);
@@ -187,7 +187,7 @@ int Efficiency(char const* input) {
     //recoLegend.AddEntry(&RecoMuEff, "#DeltaR Matched", "lep");
     recoLegend.Draw();
 
-    TLine recoline(0,1,11,1);
+    TLine recoline(0,1,12,1);
     recoline.SetLineColor(46);
     recoline.Draw();
 
