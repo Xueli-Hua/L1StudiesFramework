@@ -176,8 +176,9 @@ int Efficiency(char const* input) {
     RecoMuEff.SetMarkerStyle(20);
     RecoMuEff.Draw();
 
-    TLegend recoLegend(0.23, 0.12 ,0.88, 0.3);
+    TLegend recoLegend(0.13, 0.12 ,0.88, 0.2);
     recoLegend.SetBorderSize(0);
+    recoLegend.SetFillStyle(0);
     recoLegend.SetTextSize(0.03);
     recoLegend.SetHeader(seed.c_str());
     //recoLegend.AddEntry(&RecoMuEff, "#DeltaR Matched", "lep");
