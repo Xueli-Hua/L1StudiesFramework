@@ -169,6 +169,7 @@ int Efficiency(char const* input) {
     RecoMuEff.GetXaxis()->CenterTitle(true);
     RecoMuEff.GetYaxis()->SetTitle("Efficiency");
     RecoMuEff.GetYaxis()->CenterTitle(true);
+    RecoMuEff.GetYaxis()->SetMinimum(0);
 
     RecoMuEff.SetMarkerColor(46);
     RecoMuEff.SetLineColor(46);
