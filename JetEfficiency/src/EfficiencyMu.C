@@ -143,7 +143,7 @@ int Efficiency(char const* input) {
                 innerDxy[i] < 0.3 &&
                 innerDz[i] < 20.
                 ) softmuon = 1;*/
-            if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i]) { innerIsHPTrk[i]) NtrkHP++; }
+            if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i]) { innerIsHPTrk[i] NtrkHP++; }
         }
         if (NtrkHP!=2) continue;
 
