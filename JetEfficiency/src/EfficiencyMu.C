@@ -84,7 +84,9 @@ int Efficiency(char const* input) {
     FillChain(trkChain, files);
     TTreeReader recoMuReader(&recoMuChain);
     TTreeReader trkReader(&trkChain);
+    TTreeReaderValue<int> nTrk(trkReader, "nTrk");
     TTreeReaderArray<bool> isFake(trkReader, "isFakeVtx");
+    TTreeReaderArray<bool> trkHP(trkReader, "highPurity");
     TTreeReaderArray<float> xVtx(trkReader, "xVtx");
     TTreeReaderArray<float> yVtx(trkReader, "yVtx");
     TTreeReaderArray<float> zVtx(trkReader, "zVtx");
@@ -93,7 +95,8 @@ int Efficiency(char const* input) {
     TTreeReaderArray<float> recomuPt(recoMuReader, "recoPt");
     TTreeReaderArray<float> recomuEta(recoMuReader, "recoEta");
     TTreeReaderArray<bool> recomuIsTrk(recoMuReader, "recoIsTracker");
-    TTreeReaderArray<bool> recomuIDSoft(recoMuReader, "recoIDSoft");
+    TTreeReaderArray<bool> recomuIDSoft(recoMuReader, "recoIDSoft"); // mu.passed(reco::Muon::SoftCutBasedId))
+    TTreeReaderArray<bool> recomuIDHySoft(recoMuReader, "recoIDHybridSoft");
     TTreeReaderValue<int> innermuN(recoMuReader, "nInner");
     TTreeReaderArray<int> innermuTrkL(recoMuReader, "innerTrkLayers");
     TTreeReaderArray<int> innermuPixL(recoMuReader, "innerPixelLayers");
@@ -134,8 +137,8 @@ int Efficiency(char const* input) {
         int NtrkHP = 0;
         float l1MaxMuPt = -999;
 
-        /* iterate through reco muons and do selection */
-        for (int i = 0; i < *recomuN; ++i) {
+        /* iterate through trks and do selection */
+        for (int i = 0; i < *nTrk; ++i) {
             /*if(
                 //glbmuon1 && 
                 recomuIsTrk[i] &&
@@ -144,7 +147,7 @@ int Efficiency(char const* input) {
                 innerDxy[i] < 0.3 &&
                 innerDz[i] < 20.
                 ) softmuon = 1;*/
-            if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i] && innerIsHPTrk[i]) NtrkHP++;
+            if (trkHP[i]) NtrkHP++;
         }
         if (NtrkHP!=2) continue;
 
