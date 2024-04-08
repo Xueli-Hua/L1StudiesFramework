@@ -119,6 +119,7 @@ int Efficiency(char const* input) {
     float min = 0;
     float max = 10;
 
+    TH1F rhoHist("rhoHist", "", 200, 0, 200);
     TH1F l1muHist("l1muHist", "", nbins, min, max);
     TH1F l1MaxmuHist("l1MaxmuHist","",10,-1000,1000);
     TH1F recomuHist("recomuHist", "", nbins, min, max);
@@ -136,6 +137,7 @@ int Efficiency(char const* input) {
         //bool softmuon = 0;
         int NtrkHP = 0;
         float l1MaxMuPt = -999;
+        double rho;
 
         /* iterate through trks and do selection */
         for (int i = 0; i < *nTrk; ++i) {
@@ -148,6 +150,8 @@ int Efficiency(char const* input) {
                 innerDz[i] < 20.
                 ) softmuon = 1;*/
             if (trkHP[i]) NtrkHP++;
+            rho = TMath::sqrt(xVtx[i]*xVtx[i]+yVtx[i]*yVtx[i]+zVtx[i]*zVtx[i]);
+            rhoHist.Fill(rho);
         }
         if (NtrkHP!=2) continue;
 
@@ -199,6 +203,7 @@ int Efficiency(char const* input) {
     /* save histograms to file so I can look at them */
     TFile* fout = new TFile("muhistograms.root", "recreate");
 
+    rhoHist.Write();
     l1muHist.Write();
     l1MaxmuHist.Write();
     recomuHist.Write();
