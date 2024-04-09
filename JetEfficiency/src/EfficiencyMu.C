@@ -34,11 +34,6 @@ double dr(float eta1, float phi1, float eta2, float phi2) {
     return TMath::Sqrt(dphi*dphi + deta*deta);
 }
 
-double rho(float vx, float vy, float vz) {
-    float rho = TMath::Sqrt(vx*vx+vy*vy+vz*vz);
-    return rho;
-}
-
 void GetFiles(char const* input, vector<string>& files) {
     TSystemDirectory dir(input, input);
     TList *list = dir.GetListOfFiles();
@@ -139,6 +134,7 @@ int Efficiency(char const* input) {
         int NtrkHP = 0;
         float l1MaxMuPt = -999;
         double rho;
+        double r;
 
         /* iterate through trks and do selection */
         for (int i = 0; i < *nTrk; ++i) {
@@ -151,8 +147,8 @@ int Efficiency(char const* input) {
                 innerDz[i] < 20.
                 ) softmuon = 1;*/
             if (trkHP[i]) NtrkHP++;
-            r = TMath::sqrt(xVtx[i]*xVtx[i]+yVtx[i]*yVtx[i]);
-            rho = TMath::sqrt(xVtx[i]*xVtx[i]+yVtx[i]*yVtx[i]+zVtx[i]*zVtx[i]);
+            r = TMath::Sqrt(xVtx[i]*xVtx[i]+yVtx[i]*yVtx[i]);
+            rho = TMath::Sqrt(xVtx[i]*xVtx[i]+yVtx[i]*yVtx[i]+zVtx[i]*zVtx[i]);
             rHist.Fill(r);
             rhoHist.Fill(rho);
         }
