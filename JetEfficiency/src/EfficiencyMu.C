@@ -116,6 +116,7 @@ int Efficiency(char const* input) {
 
     TH1F rHist("rHist", "", 200, 0, 200);
     TH1F rhoHist("rhoHist", "", 200, 0, 200);
+    TH1F isfake("isfake", "", 2, 0, 2);
     TH1F l1muHist("l1muHist", "", nbins, min, max);
     TH1F l1MaxmuHist("l1MaxmuHist","",10,-1000,1000);
     TH1F recomuHist("recomuHist", "", nbins, min, max);
@@ -151,6 +152,7 @@ int Efficiency(char const* input) {
             rho = TMath::Sqrt(xVtx[i]*xVtx[i]+yVtx[i]*yVtx[i]+zVtx[i]*zVtx[i]);
             rHist.Fill(r);
             rhoHist.Fill(rho);
+            isfake.Fill(isFake[i]);
         }
         if (NtrkHP!=2) continue;
 
@@ -159,7 +161,8 @@ int Efficiency(char const* input) {
         l1MaxmuHist.Fill(l1MaxMuPt);
 
         for (int i = 0; i < *recomuN; ++i) {
-            if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i] && innerIsHPTrk[i] && recomuIDSoft[i]) { 
+            //if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i] && innerIsHPTrk[i] && recomuIDSoft[i]) { 
+            if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i] && recomuIDSoft[i]) { 
                 recomuHist.Fill(recomuPt[i]); 
                 if (l1MaxMuPt>0) l1muHist.Fill(recomuPt[i]);
             }
