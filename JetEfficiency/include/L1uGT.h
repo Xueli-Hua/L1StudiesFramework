@@ -36,9 +36,8 @@ class L1uGT
   public:
 
     // ====================  LIFECYCLE     ===============================
-    L1uGT ( TFile* outrootfile_, 
+    L1uGT ( 
         L1Analysis::L1AnalysisEventDataFormat *event__, 
-        GlobalAlgBlk *l1uGT__, StructL1Event *L1Event_, 
         std::map<std::string, L1Seed> *mL1Seed_ );
     L1uGT ( const L1uGT &other );   // copy constructor
     ~L1uGT ();                            // destructor
@@ -61,7 +60,6 @@ class L1uGT
     unsigned int ParseAlias(std::string alias) const;
 
     // ====================  DATA MEMBERS  ===============================
-    TFile                                 *outfile;
     L1Analysis::L1AnalysisEventDataFormat *event_;
 
   private:
@@ -69,7 +67,6 @@ class L1uGT
 
     // ====================  DATA MEMBERS  ===============================
     GlobalAlgBlk *l1uGT_;
-    StructL1Event *L1Event;
     std::map<std::string, L1Seed> *mL1Seed;
 
     std::map<std::string, unsigned int> SeedBit;
