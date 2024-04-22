@@ -25,61 +25,21 @@ Output: A plot of the jet turn-ons with and with out L1 dR matching vs calo jet 
 #include <iostream>
 
 using namespace std;
-L1uGT *l1unpackuGT;
-L1Analysis::L1AnalysisEventDataFormat *event_;
-std::map<std::string, L1Seed> *mL1Seed;
 GlobalAlgBlk *l1uGT_;
-std::map<std::string, unsigned int> SeedBit;
-std::map<std::string, std::string> XMLConv;
 
-// ===  FUNCTION  ============================================================
-//         Name:  L1uGT::GetuGTAlias
-//  Description:  /* cursor */
-// ===========================================================================
-std::map<std::string, std::string> GetuGTAlias(TChain fl1uGT)
+unsigned int ParseAlias(std::string alias) const
 {
-  std::map<std::string, std::string> SeedAlias;
-  std::vector<std::string> names;
-  if (fl1uGT == NULL)  return SeedAlias;
+  std::smatch base_match;
+  std::regex integer("L1uGT\\.m_algoDecisionInitial\\[([0-9]+)\\]");
+  unsigned int nbit = 0;
 
-  fl1uGT->GetEntry(1);
-  TList * aliases = fl1uGT->GetTree()->GetListOfAliases();
-  TIter iter(aliases);
-  std::for_each(iter.Begin(), TIter::End(), [&](TObject* alias){ names.push_back(alias->GetName()); } );
-  for (auto const & name: names) {
-    SeedAlias[name] = fl1uGT->GetAlias(name.c_str());
+  if (std::regex_match(alias, base_match, integer))
+  {
+    nbit = std::stoi(base_match[1].str(), nullptr);
   }
-  return SeedAlias;
-}       // -----  end of function L1uGT::GetuGTAlias  -----
 
-// ===  FUNCTION  ============================================================
-//         Name:  L1uGT::GetTreeAlias
-//  Description:  
-// ===========================================================================
-bool GetTreeAlias(std::map<std::string, std::string> SeedAlias)
-{
-  for (auto const & name: SeedAlias) {
-    if (XMLConv.find(name.first) != XMLConv.end())
-      SeedBit[XMLConv[name.first]] = ParseAlias(name.second);
-    else
-      SeedBit[name.first] = ParseAlias(name.second);
-  }
-  return true;
-}       // -----  end of function L1uGT::GetTreeAlias  -----
-
-// ===  FUNCTION  ============================================================
-//         Name:  L1uGT::GetuGTDecision
-//  Description:  
-// ===========================================================================
-bool GetuGTDecision(const std::string &seed, bool IsInit)
-{
-  if (SeedBit.find(seed) == SeedBit.end())
-    return false;
-  if (IsInit)
-    return l1uGT_->getAlgoDecisionInitial(SeedBit[seed]);
-  else
-    return l1uGT_->getAlgoDecisionFinal(SeedBit[seed]);
-}       // -----  end of function L1uGT::GetuGTDecision  -----
+  return nbit;
+}
 
 
 double dr(float eta1, float phi1, float eta2, float phi2) {
@@ -138,9 +98,23 @@ int Efficiency(char const* input) {
 
     TChain l1uGTChain("l1uGTTree/L1uGTTree");
     FillChain(l1uGTChain, files);
+    TList * aliases = l1uGTChain->GetTree()->GetListOfAliases();
+    TIter iter(aliases);
+    std::vector<std::string> names;
+    std::for_each(iter.Begin(), TIter::End(), [&](TObject* alias){ names.push_back(alias->GetName()); } );
+    std::map<std::string, std::string> SeedAlias;
+    for (auto const & name: names) {
+      SeedAlias[name] = l1uGTChain->GetAlias(name.c_str());
+    }
 
-    if (l1uGT_ != NULL) GetTreeAlias(GetuGTAlias(l1uGTChain));
-
+    std::map<std::string, std::string> XMLConv;
+    std::map<std::string, unsigned int> SeedBit;
+    for (auto const & name: SeedAlias) {
+      if (XMLConv.find(name.first) != XMLConv.end())
+        SeedBit[XMLConv[name.first]] = ParseAlias(name.second);
+      else
+        SeedBit[name.first] = ParseAlias(name.second);
+    }
 
     TTreeReaderValue<int> nTrk(trkReader, "nTrk");
     TTreeReaderArray<bool> isFake(trkReader, "isFakeVtx");
@@ -171,6 +145,8 @@ int Efficiency(char const* input) {
     TTreeReaderValue<vector<unsigned short>> l1muQual(l1Reader, "muonQual");
     
     string seed = "L1_SingleMuonOpen_NotMinimumBiasHF2_AND_BptxAND";
+    bool IsInit = true;
+    bool l1uGTdecision;
 
     /* create histograms for efficiency plots */
     int nbins = 25;
@@ -194,7 +170,10 @@ int Efficiency(char const* input) {
             cout << "Entry: " << i << " / " <<  totalEvents << endl; 
         }
 
-        bool l1uGTdecision = GetuGTDecision(seed.c_str());
+        
+        if (SeedBit.find(seed.c_str()) == SeedBit.end()) return false;
+        if (IsInit) return l1uGTdecision = l1uGT_->getAlgoDecisionInitial(SeedBit[seed.c_str()]);
+        else return l1uGTdecision = l1uGT_->getAlgoDecisionFinal(SeedBit[seed.c_str()]);
 
         //bool softmuon = 0;
         int NtrkHP = 0;
