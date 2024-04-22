@@ -44,6 +44,7 @@ class L1uGT
 
     // ====================  ACCESSORS     ===============================
     bool CompEvents();
+    bool GetuGTAlias(TChain* fl1uGT);
     bool GetTreeAlias(std::map<std::string, std::string> SeedAlias);
     bool GetuGTDecision(const std::string &seed, bool IsInit=true);
 
