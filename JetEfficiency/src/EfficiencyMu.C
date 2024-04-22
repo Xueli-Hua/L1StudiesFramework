@@ -85,7 +85,7 @@ int Efficiency(char const* input) {
     TTreeReader recoMuReader(&recoMuChain);
     TTreeReader trkReader(&trkChain);
 
-    TChain l1uGTChain("l1uGTTree/L1uGTTree");
+    TChain *l1uGTChain("l1uGTTree/L1uGTTree");
     FillChain(l1uGTChain, files);
 
     if (l1uGT_ != NULL) {
