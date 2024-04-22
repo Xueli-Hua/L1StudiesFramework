@@ -70,7 +70,7 @@ L1uGT::operator = ( const L1uGT &other )
 //         Name:  L1uGT::GetuGTAlias
 //  Description:  /* cursor */
 // ===========================================================================
-std::map<std::string, std::string> L1uGT::GetuGTAlias(TChain* fl1uGT)
+std::map<std::string, std::string> L1uGT::GetuGTAlias(TChain fl1uGT)
 {
   std::map<std::string, std::string> SeedAlias;
   std::vector<std::string> names;
