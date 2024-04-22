@@ -24,12 +24,10 @@
 // Description:  constructor
 //----------------------------------------------------------------------------
 L1uGT::L1uGT (
-    TFile* outrootfile_,
     L1Analysis::L1AnalysisEventDataFormat         *event__,
     GlobalAlgBlk *l1uGT__,
     std::map<std::string, L1Seed> *mL1Seed_
     ): 
-  outfile(outrootfile_),
   event_(event__),
   l1uGT_(l1uGT__),
   mL1Seed(mL1Seed_)
