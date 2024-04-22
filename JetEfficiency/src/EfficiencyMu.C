@@ -25,9 +25,6 @@ Output: A plot of the jet turn-ons with and with out L1 dR matching vs calo jet 
 #include <iostream>
 
 #include "L1uGT.h"
-L1uGT *l1uGT;
-L1uGT *l1unpackuGT;
-
 using namespace std;
 
 double dr(float eta1, float phi1, float eta2, float phi2) {
@@ -85,8 +82,13 @@ int Efficiency(char const* input) {
     TTreeReader trkReader(&trkChain);
 
     GlobalAlgBlk *l1uGT_;
-    TChain l1uGTChain('l1uGTTree/L1uGTTree');
+    TChain l1uGTChain("l1uGTTree/L1uGTTree");
     FillChain(l1uGTChain, files);
+
+    if (l1uGT_ != NULL) {
+        L1uGT *l1unpackuGT = new L1uGT( event_, l1uGT_, &mL1Seed);
+        l1unpackuGT->GetTreeAlias(l1unpackuGT->GetuGTAlias(l1uGTChain));
+    }
 
 
     TTreeReaderValue<int> nTrk(trkReader, "nTrk");
@@ -141,10 +143,6 @@ int Efficiency(char const* input) {
             cout << "Entry: " << i << " / " <<  totalEvents << endl; 
         }
 
-        if (l1uGT_ != NULL) {
-            l1unpackuGT = new L1uGT( event_, l1uGT_, &mL1Seed);
-            l1unpackuGT->GetTreeAlias(l1unpackuGT->GetuGTAlias(l1uGTChain));
-        }
         bool l1uGTdecision = l1unpackuGT->GetuGTDecision(seed.c_str())
 
         //bool softmuon = 0;
