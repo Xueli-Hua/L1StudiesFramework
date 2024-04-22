@@ -66,6 +66,25 @@ L1uGT::operator = ( const L1uGT &other )
   return *this;
 }  // -----  end of method L1uGT::operator =  (assignment operator)  ---
 
+// ===  FUNCTION  ============================================================
+//         Name:  L1uGT::GetuGTAlias
+//  Description:  /* cursor */
+// ===========================================================================
+std::map<std::string, std::string> L1uGT::GetuGTAlias(TChain* fl1uGT)
+{
+  std::map<std::string, std::string> SeedAlias;
+  std::vector<std::string> names;
+  if (fl1uGT == NULL)  return SeedAlias;
+
+  fl1uGT->GetEntry(1);
+  TList * aliases = fl1uGT->GetTree()->GetListOfAliases();
+  TIter iter(aliases);
+  std::for_each(iter.Begin(), TIter::End(), [&](TObject* alias){ names.push_back(alias->GetName()); } );
+  for (auto const & name: names) {
+    SeedAlias[name] = fl1uGT->GetAlias(name.c_str());
+  }
+  return SeedAlias;
+}       // -----  end of function L1uGT::GetuGTAlias  -----
 
 // ===  FUNCTION  ============================================================
 //         Name:  L1uGT::GetTreeAlias
