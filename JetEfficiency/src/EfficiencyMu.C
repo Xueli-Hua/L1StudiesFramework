@@ -75,10 +75,15 @@ int Efficiency(char const* input) {
     /* read in reco mu information */
     TChain recoMuChain("muonAnalyzer/MuonTree");
     TChain trkChain("PbPbTracks/trackTree");
+    TChain ugtChain('l1uGTTree/L1uGTTree');
     FillChain(recoMuChain, files);
     FillChain(trkChain, files);
+    FillChain(ugtChain, files);
     TTreeReader recoMuReader(&recoMuChain);
     TTreeReader trkReader(&trkChain);
+    TTreeReader ugtReader(&ugtChain);
+
+
     TTreeReaderValue<int> nTrk(trkReader, "nTrk");
     TTreeReaderArray<bool> isFake(trkReader, "isFakeVtx");
     TTreeReaderArray<bool> trkHP(trkReader, "highPurity");
