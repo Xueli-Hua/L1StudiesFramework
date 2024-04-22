@@ -26,6 +26,7 @@ Output: A plot of the jet turn-ons with and with out L1 dR matching vs calo jet 
 
 #include "../include/L1uGT.h"
 using namespace std;
+L1uGT *l1unpackuGT;
 
 double dr(float eta1, float phi1, float eta2, float phi2) {
     float deta = TMath::Abs(eta1 - eta2);
@@ -81,12 +82,15 @@ int Efficiency(char const* input) {
     TTreeReader recoMuReader(&recoMuChain);
     TTreeReader trkReader(&trkChain);
 
+    L1Analysis::L1AnalysisEventDataFormat *event_;
+    std::map<std::string, L1Seed> *mL1Seed;
+
     GlobalAlgBlk *l1uGT_;
     TChain l1uGTChain("l1uGTTree/L1uGTTree");
     FillChain(l1uGTChain, files);
 
     if (l1uGT_ != NULL) {
-        L1uGT *l1unpackuGT = new L1uGT( event_, l1uGT_, &mL1Seed);
+        l1unpackuGT = new L1uGT( event_, l1uGT_, &mL1Seed);
         l1unpackuGT->GetTreeAlias(l1unpackuGT->GetuGTAlias(l1uGTChain));
     }
 
