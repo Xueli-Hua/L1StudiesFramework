@@ -38,6 +38,7 @@ class L1uGT
     // ====================  LIFECYCLE     ===============================
     L1uGT ( 
         L1Analysis::L1AnalysisEventDataFormat *event__, 
+        GlobalAlgBlk *l1uGT__,
         std::map<std::string, L1Seed> *mL1Seed_ );
     L1uGT ( const L1uGT &other );   // copy constructor
     ~L1uGT ();                            // destructor
