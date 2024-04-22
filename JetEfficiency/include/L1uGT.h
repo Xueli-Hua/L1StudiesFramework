@@ -22,8 +22,6 @@
 
 #include "TFile.h"
 
-#include "L1Struct.h"
-
 #include "DataFormats/L1TGlobal/interface/GlobalAlgBlk.h"
 #include "L1Trigger/L1TNtuples/interface/L1AnalysisEventDataFormat.h"
 
