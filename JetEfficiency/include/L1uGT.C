@@ -27,13 +27,11 @@ L1uGT::L1uGT (
     TFile* outrootfile_,
     L1Analysis::L1AnalysisEventDataFormat         *event__,
     GlobalAlgBlk *l1uGT__,
-    StructL1Event *L1Event_, 
     std::map<std::string, L1Seed> *mL1Seed_
     ): 
   outfile(outrootfile_),
   event_(event__),
   l1uGT_(l1uGT__),
-  L1Event(L1Event_),
   mL1Seed(mL1Seed_)
 {
   XMLConv["L1_MU20_EG15"] = "L1_Mu20_EG15";
