@@ -91,7 +91,7 @@ int Efficiency(char const* input) {
 
     if (l1uGT_ != NULL) {
         l1unpackuGT = new L1uGT( event_, l1uGT_, &mL1Seed);
-        l1unpackuGT->GetTreeAlias(l1unpackuGT->GetuGTAlias(l1uGTChain));
+        l1unpackuGT->GetTreeAlias(l1unpackuGT->GetuGTAlias(*l1uGTChain));
     }
 
 
@@ -147,7 +147,7 @@ int Efficiency(char const* input) {
             cout << "Entry: " << i << " / " <<  totalEvents << endl; 
         }
 
-        bool l1uGTdecision = l1unpackuGT->GetuGTDecision(seed.c_str())
+        bool l1uGTdecision = l1unpackuGT->GetuGTDecision(seed.c_str());
 
         //bool softmuon = 0;
         int NtrkHP = 0;
