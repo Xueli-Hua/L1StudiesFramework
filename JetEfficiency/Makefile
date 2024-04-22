@@ -1,3 +1,11 @@
+# Makefile for rate estimation
+
+PROGRAM = testMenu2016
+PLUGIN = menulib
+
+SRCS = \
+	include/EfficiencyMu
+
 # Compiler
 CXX      =  g++
 #CXXFLAGS =  -std=c++11
@@ -22,6 +30,9 @@ RM       = rm -rf
 ifneq ($(shell echo $$CMSSW_BASE), )
   CXXFLAGS  += -isystem $(CMSSW_BASE)/src/
   CXXFLAGS  += -isystem $(CMSSW_RELEASE_BASE)/src
+  CXXFLAGS  += -isystem $(shell scram tool info boost | awk -F"=" '/BOOST_BASE=(.*)/{print $$NF}')/include
+  CXXFLAGS  += -isystem $(shell scram tool info json | awk -F"=" '/JSON_BASE=(.*)/{print $$NF}')/include
+  CXXFLAGS  += -isystem $(shell scram tool info fmt | awk -F"=" '/FMT_BASE=(.*)/{print $$NF}')/include
   LIBS += -L$(CMSSW_BASE)/lib/$(SCRAM_ARCH)/ -L$(CMSSW_RELEASE_BASE)/lib/$(SCRAM_ARCH)/ \
 		  -lFWCoreFWLite -lDataFormatsL1TGlobal 
   LIBS += -L$(shell scram tool info boost | awk -F"=" '/LIBDIR=(.*)/{print $$NF}') \
@@ -31,20 +42,41 @@ ifneq ($(shell echo $$CMSSW_BASE), )
 
 endif
 
-BINDIR = ./bin
-SRCDIR = ./src
+# Detect plugin
+ifeq ($(wildcard $(PLUGIN).cc)$(wildcard $(PLUGIN).hh), $(PLUGIN).cc$(PLUGIN).hh)
+  CXXFLAGS += -DUTM_MENULIB
+  SRCS += $(PLUGIN)
+endif
 
-SRCS = $(wildcard $(SRCDIR)/*.C)
-EXES = $(patsubst $(SRCDIR)/%.C,$(BINDIR)/%,$(SRCS))
+# Whether to use Muon Eta/Phi at Vtx
+CXXFLAGS += -DL1NTUPLE_MUONCORATVTX
 
-.PHONY: all submodules clean
+SRCS += $(PROGRAM)
 
-all: $(EXES)
+OBJSDIR = objs
+OBJS := $(SRCS:%=$(OBJSDIR)/%.o)
 
-$(BINDIR)/%: $(SRCDIR)/%.C
-	@mkdir -p $(BINDIR)
-	$(CXX) $(CXXFLAGS) $< -o $@
+# MKBIN = $(CXX) $(CXXFLAGS) `root-config  --libs --cflags` -lMinuit -lGenVector
+
+.PHONY: all clean distclean
+
+$(OBJSDIR)/%.o: %.C
+	$(MD) $(dir $@)
+	$(CXX) $(CXXFLAGS) $(CXXDEPFLAGS) -o $@ -c $<
+
+$(OBJSDIR)/%.o: %.cc
+	$(MD) $(dir $@)
+	$(CXX) $(CXXFLAGS) $(CXXDEPFLAGS) -o $@ -c $<
+
+all: $(PROGRAM)
+
+$(PROGRAM): $(OBJS)
+	@echo "Linking $(PROGRAM) ..."
+	$(LD) $^ $(LIBS)  -o $@
+	@echo "done"
 
 clean:
-	@rm -f $(EXES)
-	@rm -f $(BINDIR)/*
+	$(RM) $(OBJS) $(OBJSDIR)/*.o *.o
+
+distclean: clean
+	$(RM) $(PROGRAM) $(OBJSDIR) menulib.hh menulib.cc menu.txt
