@@ -140,7 +140,7 @@ int Efficiency(char const* input) {
       SeedAlias[name] = l1uGTChainForBit.GetAlias(name.c_str());
     }
     
-    std::map<std::string, std::string> XMLConv;
+    std::map<std::string, std::string> XMLConv; 
     std::map<std::string, unsigned int> SeedBit;
     for (auto const & name: SeedAlias) {
       if (XMLConv.find(name.first) != XMLConv.end())
@@ -149,7 +149,7 @@ int Efficiency(char const* input) {
         SeedBit[name.first] = ParseAlias(name.second);
     }
 
-    string seed = "L1_SingleMuonOpen_NotMinimumBiasHF2_AND_BptxAND";
+    string seed = "L1_SingleMuOpen_NotMinimumBiasHF2_AND_BptxAND";
     if (SeedBit.find(seed.c_str()) == SeedBit.end()) { cout << "error" << endl; }
     bool l1uGTdecision;
 
