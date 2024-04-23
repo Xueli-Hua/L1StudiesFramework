@@ -57,7 +57,7 @@ EXES = $(patsubst $(SRCDIR)/%.C,$(BINDIR)/%,$(SRCS))
 
 $(BINDIR)/%: $(SRCDIR)/%.C
 	@mkdir -p $(BINDIR)
-	$(CXX) $(CXXFLAGS) $(CXXDEPFLAGS) $< -o $@
+	$(CXX) $(CXXFLAGS) $(CXXDEPFLAGS) $(LD) $^ $(LIBS) $< -o $@
 
 all: $(EXES)
 
