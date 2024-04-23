@@ -151,7 +151,6 @@ int Efficiency(char const* input) {
 
     string seed = "L1_SingleMuonOpen_NotMinimumBiasHF2_AND_BptxAND";
     if (SeedBit.find(seed.c_str()) == SeedBit.end()) { cout << "error" << endl; }
-    if (SeedBit[seed.c_str()]>=m_algoDecisionInitial.GetSize()) { cout << "error" << endl; }   
     bool l1uGTdecision;
 
     /* create histograms for efficiency plots */
@@ -170,7 +169,8 @@ int Efficiency(char const* input) {
         if (i % 20000 == 0) { 
             cout << "Entry: " << i << " / " <<  totalEvents << endl; 
         }
-        
+
+        if (SeedBit[seed.c_str()]>=m_algoDecisionInitial.GetSize()) { cout << "error" << endl; }   
         l1uGTdecision = m_algoDecisionInitial.At(SeedBit[seed.c_str()]); 
         //bool softmuon = 0;
         int NtrkHP = 0;
