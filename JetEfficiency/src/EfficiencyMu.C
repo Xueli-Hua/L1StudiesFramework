@@ -169,8 +169,8 @@ int Efficiency(char const* input) {
             cout << "Entry: " << i << " / " <<  totalEvents << endl; 
         }
         
-        if(SeedBit.find(seed.c_str()) == SeedBit.end()) continue;
-        if(SeedBit[seed.c_str()]>=m_algoDecisionInitial.GetSize()) continue;
+        if(SeedBit.find(seed.c_str()) == SeedBit.end()) cout << "error" << end;
+        if(SeedBit[seed.c_str()]>=m_algoDecisionInitial.GetSize()) cout << "error" << end;
         l1uGTdecision = m_algoDecisionInitial.At(SeedBit[seed.c_str()]); 
         
         //bool softmuon = 0;
