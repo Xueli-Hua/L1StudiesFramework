@@ -179,21 +179,22 @@ int Efficiency(char const* input) {
         int NtrkHP = 0;
         double rho;
 
-        bool primaryVertext = (!isFake && TMath::Abs(zVtx)<25 && !(TMath::Sqrt(xVtx*xVtx+yVtx*yVtx)>2));
-        if (!primaryVertext) continue;
+        bool primaryVertex;
         
         /* iterate through trks and do selection */
         for (int i = 0; i < *nTrk; ++i) {
+            primaryVertex = (!isFake[i] && TMath::Abs(zVtx[i])<25 && !(TMath::Sqrt(xVtx[i]*xVtx[i]+yVtx[i]*yVtx[i])>2));
+            if (!primaryVertex) continue;
+
             if (trkHP[i]) NtrkHP++;
             rho = TMath::Sqrt(xVtx[i]*xVtx[i]+yVtx[i]*yVtx[i]);
-            rHist.Fill(r);
             rhoHist.Fill(rho);
         }
         if (NtrkHP!=2) continue;
 
         /* iterate through l1object muons and find max et */
         for (int i = 0; i < *recomuN; ++i) {
-            if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i] && recomuIDHySoft) { 
+            if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i] && recomuIDHySoft[i]) { 
                 recomuHist.Fill(recomuPt[i]); 
                 if (l1uGTdecision) l1muHist.Fill(recomuPt[i]);
             }
