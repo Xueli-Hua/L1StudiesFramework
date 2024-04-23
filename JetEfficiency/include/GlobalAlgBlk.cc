@@ -13,7 +13,7 @@
 */
 
 // this class header
-#include "DataFormats/L1TGlobal/interface/GlobalAlgBlk.h"
+#include "../include/GlobalAlgBlk.h"
 
 
 // system include files
@@ -21,8 +21,6 @@
 
 // user include files
 
-#include "FWCore/MessageLogger/interface/MessageLogger.h"
-#include "FWCore/MessageLogger/interface/MessageDrop.h"
 
 
 // constructors
