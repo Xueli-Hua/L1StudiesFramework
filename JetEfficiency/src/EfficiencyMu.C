@@ -84,20 +84,13 @@ int Efficiency(char const* input) {
     vector<string> files;
     GetFiles(input, files);
 
-    /* read in reco mu information */
+    /* read in reco mu and trk information */
     TChain recoMuChain("muonAnalyzer/MuonTree");
     TChain trkChain("PbPbTracks/trackTree");
     FillChain(recoMuChain, files);
     FillChain(trkChain, files);
     TTreeReader recoMuReader(&recoMuChain);
     TTreeReader trkReader(&trkChain);
-
-    //TChain l1uGTChainForBit("l1uGTTree/L1uGTTree");
-    //FillChain(l1uGTChainForBit, files);
-
-    TChain l1uGTChain("l1uGTTree/L1uGTTree");
-    FillChain(l1uGTChain, files);
-    TTreeReader l1uGTReader(&l1uGTChain);
 
     TTreeReaderValue<int> nTrk(trkReader, "nTrk");
     TTreeReaderArray<bool> isFake(trkReader, "isFakeVtx");
@@ -127,6 +120,13 @@ int Efficiency(char const* input) {
     TTreeReaderValue<vector<float>> l1muEta(l1Reader, "muonEta");
     TTreeReaderValue<vector<unsigned short>> l1muQual(l1Reader, "muonQual");
 
+    /* read in L1uGT information */
+    //TChain l1uGTChainForBit("l1uGTTree/L1uGTTree");
+    //FillChain(l1uGTChainForBit, files);
+
+    TChain l1uGTChain("l1uGTTree/L1uGTTree");
+    FillChain(l1uGTChain, files);
+    TTreeReader l1uGTReader(&l1uGTChain);
     TTreeReaderArray<bool> m_algoDecisionInitial(l1uGTReader, "m_algoDecisionInitial");
     
     (&l1uGTChain)->GetEntry(1);
@@ -156,13 +156,11 @@ int Efficiency(char const* input) {
     int nbins = 25;
     float min = 0;
     float max = 10;
-
     TH1F rhoHist("rhoHist", "", 200, 0, 200);
     TH1F l1muHist("l1muHist", "", nbins, min, max);
     TH1F recomuHist("recomuHist", "", nbins, min, max);
 
     Long64_t totalEvents = l1Reader.GetEntries(true);
-    
     /* read in information from TTrees */
     for (Long64_t i = 0; i < totalEvents; i++) {
         l1Reader.Next(); recoMuReader.Next(); trkReader.Next(); l1uGTReader.Next();
@@ -171,7 +169,7 @@ int Efficiency(char const* input) {
             cout << "Entry: " << i << " / " <<  totalEvents << endl; 
         }
         
-        if (SeedBit.find(seed.c_str()) == SeedBit.end()) continue;
+        if(SeedBit.find(seed.c_str()) == SeedBit.end()) continue;
         if(SeedBit[seed.c_str()]>=m_algoDecisionInitial.GetSize()) continue;
         l1uGTdecision = m_algoDecisionInitial.At(SeedBit[seed.c_str()]); 
         
@@ -183,12 +181,12 @@ int Efficiency(char const* input) {
         
         /* iterate through trks and do selection */
         for (int i = 0; i < *nTrk; ++i) {
-            primaryVertex = (!isFake[i] && TMath::Abs(zVtx[i])<25 && !(TMath::Sqrt(xVtx[i]*xVtx[i]+yVtx[i]*yVtx[i])>2));
-            if (!primaryVertex) continue;
-
-            if (trkHP[i]) NtrkHP++;
             rho = TMath::Sqrt(xVtx[i]*xVtx[i]+yVtx[i]*yVtx[i]);
             rhoHist.Fill(rho);
+
+            primaryVertex = (!isFake[i] && TMath::Abs(zVtx[i])<25 && !(TMath::Sqrt(xVtx[i]*xVtx[i]+yVtx[i]*yVtx[i])>2));
+            if (!primaryVertex) continue;
+            if (trkHP[i]) NtrkHP++;
         }
         if (NtrkHP!=2) continue;
 
