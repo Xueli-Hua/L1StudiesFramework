@@ -1,8 +1,5 @@
 # Makefile for rate estimation
 
-SRCS = \
-	include/EfficiencyMu
-
 # Compiler
 CXX      =  g++
 #CXXFLAGS =  -std=c++11
@@ -48,30 +45,22 @@ endif
 # Whether to use Muon Eta/Phi at Vtx
 CXXFLAGS += -DL1NTUPLE_MUONCORATVTX
 
-OBJSDIR = objs
-OBJS := $(SRCS:%=$(OBJSDIR)/%.o)
+BINDIR = ./bin
+SRCDIR = ./src
+
+SRCS = $(wildcard $(SRCDIR)/*.C)
+EXES = $(patsubst $(SRCDIR)/%.C,$(BINDIR)/%,$(SRCS))
 
 # MKBIN = $(CXX) $(CXXFLAGS) `root-config  --libs --cflags` -lMinuit -lGenVector
 
-.PHONY: all clean distclean
+.PHONY: all submodules clean
 
-$(OBJSDIR)/%.o: %.C
-	$(MD) $(dir $@)
-	$(CXX) $(CXXFLAGS) $(CXXDEPFLAGS) -o $@ -c $<
+all: $(EXES)
 
-$(OBJSDIR)/%.o: %.cc
-	$(MD) $(dir $@)
-	$(CXX) $(CXXFLAGS) $(CXXDEPFLAGS) -o $@ -c $<
-
-all: $(PROGRAM)
-
-$(PROGRAM): $(OBJS)
-	@echo "Linking $(PROGRAM) ..."
-	$(LD) $^ $(LIBS)  -o $@
-	@echo "done"
+$(BINDIR)/%: $(SRCDIR)/%.C
+	@mkdir -p $(BINDIR)
+	$(CXX) $(CXXFLAGS) $(RCXXFLAGS) $< -o $@
 
 clean:
-	$(RM) $(OBJS) $(OBJSDIR)/*.o *.o
-
-distclean: clean
-	$(RM) $(PROGRAM) $(OBJSDIR) menulib.hh menulib.cc menu.txt
+	@rm -f $(EXES)
+	@rm -f $(BINDIR)/*
