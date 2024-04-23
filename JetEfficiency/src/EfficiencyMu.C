@@ -92,6 +92,9 @@ int Efficiency(char const* input) {
     TTreeReader recoMuReader(&recoMuChain);
     TTreeReader trkReader(&trkChain);
 
+    TChain l1uGTChainForBit("l1uGTTree/L1uGTTree");
+    FillChain(l1uGTChainForBit, files);
+
     TChain l1uGTChain("l1uGTTree/L1uGTTree");
     FillChain(l1uGTChain, files);
     TTreeReader l1uGTReader(&l1uGTChain);
@@ -129,15 +132,15 @@ int Efficiency(char const* input) {
     TTreeReaderArray<bool> m_algoDecisionInitial(l1uGTReader, "m_algoDecisionInitial");
     cout << "test for ugt" << endl;
 
-    //(&l1uGTChain)->GetEntry(1);
-    TTree * ugtree = (&l1uGTChain)->GetEntry(1)->GetTree();cout << "test for ugt" << endl;
+    (&l1uGTChainForBit)->GetEntry(1);
+    TTree * ugtree = (&l1uGTChainForBit)->GetTree();cout << "test for ugt" << endl;
     TList * aliases = ugtree->GetListOfAliases();cout << "test for ugt" << endl;
     TIter iter(aliases);cout << "test for ugt" << endl;
     std::vector<std::string> names;cout << "test for ugt" << endl;
     std::for_each(iter.Begin(), TIter::End(), [&](TObject* alias){ names.push_back(alias->GetName()); } );cout << "test for ugt" << endl;
     std::map<std::string, std::string> SeedAlias;cout << "test for ugt" << endl;
     for (auto const & name: names) {
-      SeedAlias[name] = l1uGTChain.GetAlias(name.c_str());
+      SeedAlias[name] = l1uGTChainForBit.GetAlias(name.c_str());
     }
     cout << "test for ugt" << endl;
     std::map<std::string, std::string> XMLConv;
@@ -171,7 +174,7 @@ int Efficiency(char const* input) {
     
     /* read in information from TTrees */
     for (Long64_t i = 0; i < totalEvents; i++) {
-        l1Reader.Next(); recoMuReader.Next(); trkReader.Next();
+        l1Reader.Next(); recoMuReader.Next(); trkReader.Next(); l1uGTReader.Next();
 
         if (i % 20000 == 0) { 
             cout << "Entry: " << i << " / " <<  totalEvents << endl; 
