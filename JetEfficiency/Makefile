@@ -1,14 +1,9 @@
 # Makefile for rate estimation
 
 # Compiler
-CXX      =  g++
-#CXXFLAGS =  -std=c++11
-CXXFLAGS += -Wall -fPIC -O3
-#CXXFLAGS  += -g -pg
-#CXXFLAGS  += -Wextra
-#CXXFLAGS += -Wextra -Weffc++ # asking for troubles
-#CXXFLAGS += -Wno-reorder # dirty fix
-CXXFLAGS += $(subst -I, -isystem , $(shell root-config --cflags))
+CXX = g++
+CXXFLAGS = -O2 -Wall -Werror -Wextra
+RCXXFLAGS := `root-config --cflags --libs`
 
 # Linker
 LD       = g++
@@ -60,13 +55,6 @@ $(BINDIR)/%: $(SRCDIR)/%.C
 	$(CXX) $(CXXFLAGS) $(CXXDEPFLAGS) $(LD) $^ $(LIBS) $< -o $@
 
 all: $(EXES)
-
-#BIN := $(SRCS:%)
-
-#$(EXES): $(SRCS)
-#	@echo "Linking $(EXES) ..."
-#	$(LD) $^ $(LIBS)  -o $@
-#	@echo "done"
 
 clean:
 	@rm -f $(EXES)
