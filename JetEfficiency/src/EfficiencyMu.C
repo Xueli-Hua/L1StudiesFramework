@@ -175,8 +175,6 @@ int Efficiency(char const* input) {
         
         //bool softmuon = 0;
         int NtrkHP = 0;
-        //double rho;
-
         bool primaryVertex=false;
         
         /* iterate through trks and do selection */
