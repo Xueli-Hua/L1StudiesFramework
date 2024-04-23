@@ -98,27 +98,6 @@ int Efficiency(char const* input) {
 
     cout << "test for ugt" << endl;
 
-    TTree *ugttree = (&l1uGTChain)->GetTree();cout << "test for ugt" << endl;
-    TList *aliases = ugttree->GetListOfAliases();cout << "test for ugt" << endl;
-    TIter iter(aliases);cout << "test for ugt" << endl;
-    std::vector<std::string> names;cout << "test for ugt" << endl;
-    std::for_each(iter.Begin(), TIter::End(), [&](TObject* alias){ names.push_back(alias->GetName()); } );cout << "test for ugt" << endl;
-    std::map<std::string, std::string> SeedAlias;cout << "test for ugt" << endl;
-    for (auto const & name: names) {
-      SeedAlias[name] = l1uGTChain.GetAlias(name.c_str());
-    }
-    cout << "test for ugt" << endl;
-    std::map<std::string, std::string> XMLConv;
-    std::map<std::string, unsigned int> SeedBit;
-    for (auto const & name: SeedAlias) {
-      if (XMLConv.find(name.first) != XMLConv.end())
-        SeedBit[XMLConv[name.first]] = ParseAlias(name.second);
-      else
-        SeedBit[name.first] = ParseAlias(name.second);
-    }
-
-    cout << "test for ugt" << endl;
-
     TTreeReaderValue<int> nTrk(trkReader, "nTrk");
     TTreeReaderArray<bool> isFake(trkReader, "isFakeVtx");
     TTreeReaderArray<bool> trkHP(trkReader, "highPurity");
@@ -176,6 +155,25 @@ int Efficiency(char const* input) {
             cout << "Entry: " << i << " / " <<  totalEvents << endl; 
         }
 
+        TList * aliases = (&l1uGTChain)->GetTree()->GetListOfAliases();cout << "test for ugt" << endl;
+        TIter iter(aliases);cout << "test for ugt" << endl;
+        std::vector<std::string> names;cout << "test for ugt" << endl;
+        std::for_each(iter.Begin(), TIter::End(), [&](TObject* alias){ names.push_back(alias->GetName()); } );cout << "test for ugt" << endl;
+        std::map<std::string, std::string> SeedAlias;cout << "test for ugt" << endl;
+        for (auto const & name: names) {
+          SeedAlias[name] = l1uGTChain.GetAlias(name.c_str());
+        }
+        cout << "test for ugt" << endl;
+        std::map<std::string, std::string> XMLConv;
+        std::map<std::string, unsigned int> SeedBit;
+        for (auto const & name: SeedAlias) {
+          if (XMLConv.find(name.first) != XMLConv.end())
+            SeedBit[XMLConv[name.first]] = ParseAlias(name.second);
+          else
+            SeedBit[name.first] = ParseAlias(name.second);
+        }
+
+        cout << "test for ugt" << endl;
         
         if (SeedBit.find(seed.c_str()) == SeedBit.end()) return false;
 
