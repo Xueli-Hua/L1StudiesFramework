@@ -61,7 +61,7 @@ $(BINDIR)/%: $(SRCDIR)/%.C
 
 all: $(EXES)
 
-BIN := $(SRCS:%=$(BINDIR)/%)
+BIN := $(SRCS:%=%)
 
 $(EXES): $(BIN)
 	@echo "Linking $(EXES) ..."
