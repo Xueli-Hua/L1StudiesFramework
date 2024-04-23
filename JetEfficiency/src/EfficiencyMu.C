@@ -179,7 +179,7 @@ int Efficiency(char const* input) {
         if (i % 20000 == 0) { 
             cout << "Entry: " << i << " / " <<  totalEvents << endl; 
         }
-        
+        cout << "test for ugt" << endl;
         if (SeedBit.find(seed.c_str()) == SeedBit.end()) return false;
 
         if(SeedBit[seed.c_str()]>=m_algoDecisionInitial.GetSize()) return false;
@@ -187,7 +187,7 @@ int Efficiency(char const* input) {
 
         //if (IsInit) return l1uGTdecision = l1uGT_->getAlgoDecisionInitial(SeedBit[seed.c_str()]);
         //else return l1uGTdecision = l1uGT_->getAlgoDecisionFinal(SeedBit[seed.c_str()]);
-
+        cout << "test for ugt" << endl;
         //bool softmuon = 0;
         int NtrkHP = 0;
         float l1MaxMuPt = -999;
@@ -219,7 +219,7 @@ int Efficiency(char const* input) {
     }
     //TGraphAsymmErrors RecoMuEff(&l1muHist, &recomuHist, "cl=0.683 b(1,1) mode");
     TGraphAsymmErrors RecoMuEff(&l1muHist, &recomuHist);
-
+    cout << "test for ugt" << endl;
     /* plot the turn ons vs reco mu pt */
     TCanvas recoCanvas("recoCanvas", "", 0, 0, 500, 500);
     recoCanvas.cd();
