@@ -8,12 +8,8 @@ RCXXFLAGS := `root-config --cflags --libs`
 # Linker
 LD       = g++
 LDFLAGS  =
-LIBS     = $(shell root-config --libs)
+LIBS     = 
 #LIBS     += -stdlib=libc++
-
-# Commands
-MD       = mkdir -p
-RM       = rm -rf
 
 # CMSSW
 ifneq ($(shell echo $$CMSSW_BASE), )
@@ -31,14 +27,6 @@ ifneq ($(shell echo $$CMSSW_BASE), )
 
 endif
 
-# Detect plugin
-ifeq ($(wildcard $(PLUGIN).cc)$(wildcard $(PLUGIN).hh), $(PLUGIN).cc$(PLUGIN).hh)
-  CXXFLAGS += -DUTM_MENULIB
-  SRCS += $(PLUGIN)
-endif
-
-# Whether to use Muon Eta/Phi at Vtx
-CXXFLAGS += -DL1NTUPLE_MUONCORATVTX
 
 BINDIR = ./bin
 SRCDIR = ./src
@@ -52,7 +40,7 @@ EXES = $(patsubst $(SRCDIR)/%.C,$(BINDIR)/%,$(SRCS))
 
 $(BINDIR)/%: $(SRCDIR)/%.C
 	@mkdir -p $(BINDIR)
-	$(CXX) $(CXXFLAGS) $(CXXDEPFLAGS) $(LD) $^ $(LIBS) $< -o $@
+	$(CXX) $(CXXFLAGS) $(CXXDEPFLAGS) $^ $(LIBS) $< -o $@
 
 all: $(EXES)
 
