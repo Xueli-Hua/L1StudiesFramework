@@ -59,7 +59,7 @@ all: $(EXES)
 
 $(BINDIR)/%: $(SRCDIR)/%.C
 	@mkdir -p $(BINDIR)
-	$(CXX) $(CXXFLAGS) $(RCXXFLAGS) $< -o $@
+	$(CXX) $(CXXFLAGS) $(CXXDEPFLAGS) $< -o $@
 
 clean:
 	@rm -f $(EXES)
