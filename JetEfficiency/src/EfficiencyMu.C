@@ -129,8 +129,8 @@ int Efficiency(char const* input) {
     TTreeReaderArray<bool> m_algoDecisionInitial(l1uGTReader, "m_algoDecisionInitial");
     cout << "test for ugt" << endl;
 
-    (&l1uGTChain)->GetEntry(1);
-    TTree * ugtree = (&l1uGTChain)->GetTree();cout << "test for ugt" << endl;
+    //(&l1uGTChain)->GetEntry(1);
+    TTree * ugtree = (&l1uGTChain)->GetEntry(1)->GetTree();cout << "test for ugt" << endl;
     TList * aliases = ugtree->GetListOfAliases();cout << "test for ugt" << endl;
     TIter iter(aliases);cout << "test for ugt" << endl;
     std::vector<std::string> names;cout << "test for ugt" << endl;
