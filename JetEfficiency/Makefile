@@ -1,8 +1,5 @@
 # Makefile for rate estimation
 
-PROGRAM = testMenu2016
-PLUGIN = menulib
-
 SRCS = \
 	include/EfficiencyMu
 
@@ -50,8 +47,6 @@ endif
 
 # Whether to use Muon Eta/Phi at Vtx
 CXXFLAGS += -DL1NTUPLE_MUONCORATVTX
-
-SRCS += $(PROGRAM)
 
 OBJSDIR = objs
 OBJS := $(SRCS:%=$(OBJSDIR)/%.o)
