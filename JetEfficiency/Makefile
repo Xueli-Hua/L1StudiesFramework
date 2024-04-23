@@ -55,11 +55,18 @@ EXES = $(patsubst $(SRCDIR)/%.C,$(BINDIR)/%,$(SRCS))
 
 .PHONY: all submodules clean
 
-all: $(EXES)
-
 $(BINDIR)/%: $(SRCDIR)/%.C
 	@mkdir -p $(BINDIR)
 	$(CXX) $(CXXFLAGS) $(CXXDEPFLAGS) $< -o $@
+
+all: $(EXES)
+
+BIN := $(SRCS:%=$(BINDIR)/%)
+
+$(EXES): $(BIN)
+	@echo "Linking $(EXES) ..."
+	$(LD) $^ $(LIBS)  -o $@
+	@echo "done"
 
 clean:
 	@rm -f $(EXES)
