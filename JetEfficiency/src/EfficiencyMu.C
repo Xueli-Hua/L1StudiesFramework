@@ -98,11 +98,11 @@ int Efficiency(char const* input) {
 
     cout << "test for ugt" << endl;
 
-    TList * aliases = l1uGTChain.GetTree()->GetListOfAliases();
-    TIter iter(aliases);
-    std::vector<std::string> names;
-    std::for_each(iter.Begin(), TIter::End(), [&](TObject* alias){ names.push_back(alias->GetName()); } );
-    std::map<std::string, std::string> SeedAlias;
+    TList * aliases = l1uGTChain.GetTree()->GetListOfAliases();cout << "test for ugt" << endl;
+    TIter iter(aliases);cout << "test for ugt" << endl;
+    std::vector<std::string> names;cout << "test for ugt" << endl;
+    std::for_each(iter.Begin(), TIter::End(), [&](TObject* alias){ names.push_back(alias->GetName()); } );cout << "test for ugt" << endl;
+    std::map<std::string, std::string> SeedAlias;cout << "test for ugt" << endl;
     for (auto const & name: names) {
       SeedAlias[name] = l1uGTChain.GetAlias(name.c_str());
     }
