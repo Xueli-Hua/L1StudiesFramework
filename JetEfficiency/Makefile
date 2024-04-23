@@ -1,9 +1,9 @@
 # Makefile for rate estimation
 
 # Compiler
-CXX = g++
-CXXFLAGS = -O2 -Wall -Werror -Wextra
-RCXXFLAGS := `root-config --cflags --libs`
+CXX      =  g++
+CXXFLAGS += -Wall -fPIC -O3
+CXXFLAGS += $(subst -I, -isystem , $(shell root-config --cflags --libs))
 
 # Linker
 LD       = g++
@@ -40,7 +40,7 @@ EXES = $(patsubst $(SRCDIR)/%.C,$(BINDIR)/%,$(SRCS))
 
 $(BINDIR)/%: $(SRCDIR)/%.C
 	@mkdir -p $(BINDIR)
-	$(CXX) $(CXXFLAGS) $(CXXDEPFLAGS) $^ $(LIBS) $< -o $@
+	$(CXX) $(CXXFLAGS) $^ $(LIBS) $< -o $@
 
 all: $(EXES)
 
