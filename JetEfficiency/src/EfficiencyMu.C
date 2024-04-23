@@ -156,7 +156,7 @@ int Efficiency(char const* input) {
     int nbins = 25;
     float min = 0;
     float max = 10;
-    TH1F rhoHist("rhoHist", "", 200, 0, 200);
+    TH1F zVtxHist("zVtxHist", "", 200, 0, 200);
     TH1F l1muHist("l1muHist", "", nbins, min, max);
     TH1F recomuHist("recomuHist", "", nbins, min, max);
 
@@ -177,13 +177,13 @@ int Efficiency(char const* input) {
         int NtrkHP = 0;
         double rho;
 
-        bool primaryVertex;
+        bool primaryVertex=false;
         
         /* iterate through trks and do selection */
         for (int i = 0; i < *nTrk; ++i) {
             rho = TMath::Sqrt(xVtx[i]*xVtx[i]+yVtx[i]*yVtx[i]);
-            rhoHist.Fill(rho);
-            primaryVertex = (!isFake[i] && TMath::Abs(zVtx[i])<25 && !(TMath::Sqrt(xVtx[i]*xVtx[i]+yVtx[i]*yVtx[i])>2));
+            zVtxHist.Fill(TMath::Abs(zVtx[i]));
+            if (!isFake[i] && TMath::Abs(zVtx[i])<25 && !(TMath::Sqrt(xVtx[i]*xVtx[i]+yVtx[i]*yVtx[i])>2)) primaryVertex = true;
             if (trkHP[i]) NtrkHP++;
         }
         if (!primaryVertex) continue;
@@ -234,7 +234,7 @@ int Efficiency(char const* input) {
     /* save histograms to file so I can look at them */
     TFile* fout = new TFile("muhistograms.root", "recreate");
 
-    rhoHist.Write();
+    zVtxHist.Write();
     l1muHist.Write();
     recomuHist.Write();
 
