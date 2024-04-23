@@ -145,7 +145,7 @@ int Efficiency(char const* input) {
     TTreeReaderArray<bool> m_algoDecisionInitial(l1uGTReader, "m_algoDecisionInitial");
     
     string seed = "L1_SingleMuonOpen_NotMinimumBiasHF2_AND_BptxAND";
-    bool IsInit = true;
+    //bool IsInit = true;
     bool l1uGTdecision;
 
     /* create histograms for efficiency plots */
