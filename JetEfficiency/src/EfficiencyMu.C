@@ -175,13 +175,13 @@ int Efficiency(char const* input) {
         
         //bool softmuon = 0;
         int NtrkHP = 0;
-        double rho;
+        //double rho;
 
         bool primaryVertex=false;
         
         /* iterate through trks and do selection */
         for (int i = 0; i < *nTrk; ++i) {
-            rho = TMath::Sqrt(xVtx[i]*xVtx[i]+yVtx[i]*yVtx[i]);
+            //rho = TMath::Sqrt(xVtx[i]*xVtx[i]+yVtx[i]*yVtx[i]);
             zVtxHist.Fill(TMath::Abs(zVtx[i]));
             if (!isFake[i] && TMath::Abs(zVtx[i])<25 && !(TMath::Sqrt(xVtx[i]*xVtx[i]+yVtx[i]*yVtx[i])>2)) primaryVertex = true;
             if (trkHP[i]) NtrkHP++;
