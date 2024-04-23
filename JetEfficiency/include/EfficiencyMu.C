@@ -104,13 +104,13 @@ int Efficiency(char const* input) {
 
     TChain l1uGTChain("l1uGTTree/L1uGTTree");
     FillChain(l1uGTChain, files);
-    TList * aliases = l1uGTChain->GetTree()->GetListOfAliases();
+    TList * aliases = l1uGTChain.GetTree()->GetListOfAliases();
     TIter iter(aliases);
     std::vector<std::string> names;
     std::for_each(iter.Begin(), TIter::End(), [&](TObject* alias){ names.push_back(alias->GetName()); } );
     std::map<std::string, std::string> SeedAlias;
     for (auto const & name: names) {
-      SeedAlias[name] = l1uGTChain->GetAlias(name.c_str());
+      SeedAlias[name] = l1uGTChain.GetAlias(name.c_str());
     }
 
     std::map<std::string, std::string> XMLConv;
