@@ -204,7 +204,7 @@ int Efficiency(char const* input) {
             //if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i] && innerIsHPTrk[i] && recomuIDSoft[i]) { 
             if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i] && recomuIDSoft[i]) { 
                 recomuHist.Fill(recomuPt[i]); 
-                if (l1MaxMuPt>0) l1muHist.Fill(recomuPt[i]);
+                if (l1uGTdecision) l1muHist.Fill(recomuPt[i]);
             }
         }
     }
