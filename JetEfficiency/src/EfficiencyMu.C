@@ -27,8 +27,7 @@ Output: A plot of the jet turn-ons with and with out L1 dR matching vs calo jet 
 #include <regex>
 #include <map>
 
-#include "DataFormats/L1TGlobal/interface/GlobalAlgBlk.h"
-#include "L1Trigger/L1TNtuples/interface/L1AnalysisEventDataFormat.h"
+#include "../include/GlobalAlgBlk.h"
 
 using namespace std;
 GlobalAlgBlk *l1uGT_;
