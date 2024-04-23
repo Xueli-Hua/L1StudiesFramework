@@ -98,7 +98,7 @@ int Efficiency(char const* input) {
 
     cout << "test for ugt" << endl;
 
-    TTree *ugttree = (&l1uGTChain).GetTree();cout << "test for ugt" << endl;
+    TTree *ugttree = (&l1uGTChain)->GetTree();cout << "test for ugt" << endl;
     TList *aliases = ugttree->GetListOfAliases();cout << "test for ugt" << endl;
     TIter iter(aliases);cout << "test for ugt" << endl;
     std::vector<std::string> names;cout << "test for ugt" << endl;
