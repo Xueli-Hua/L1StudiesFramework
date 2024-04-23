@@ -63,10 +63,10 @@ all: $(EXES)
 
 #BIN := $(SRCS:%)
 
-$(EXES): $(SRCS)
-	@echo "Linking $(EXES) ..."
-	$(LD) $^ $(LIBS)  -o $@
-	@echo "done"
+#$(EXES): $(SRCS)
+#	@echo "Linking $(EXES) ..."
+#	$(LD) $^ $(LIBS)  -o $@
+#	@echo "done"
 
 clean:
 	@rm -f $(EXES)
