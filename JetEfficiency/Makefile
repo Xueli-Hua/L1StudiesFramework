@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -O2 -Wall -Werror -Wextra
+CXXFLAGS = -O2 -Wall -Werror -Wextra -Wno-return-type
 RCXXFLAGS := `root-config --cflags --libs`
 
 BINDIR = ./bin
