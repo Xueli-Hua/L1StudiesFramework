@@ -24,10 +24,16 @@ Output: A plot of the jet turn-ons with and with out L1 dR matching vs calo jet 
 #include <vector>
 #include <iostream>
 
+#include <regex>
+#include <map>
+
+#include "DataFormats/L1TGlobal/interface/GlobalAlgBlk.h"
+#include "L1Trigger/L1TNtuples/interface/L1AnalysisEventDataFormat.h"
+
 using namespace std;
 GlobalAlgBlk *l1uGT_;
 
-unsigned int ParseAlias(std::string alias) const
+unsigned int ParseAlias(std::string alias) 
 {
   std::smatch base_match;
   std::regex integer("L1uGT\\.m_algoDecisionInitial\\[([0-9]+)\\]");
@@ -39,15 +45,6 @@ unsigned int ParseAlias(std::string alias) const
   }
 
   return nbit;
-}
-
-
-double dr(float eta1, float phi1, float eta2, float phi2) {
-    float deta = TMath::Abs(eta1 - eta2);
-    float dphi = TMath::Abs(phi1 - phi2);
-    if (dphi > TMath::Pi()) dphi = TMath::Abs(dphi - 2*TMath::Pi());
-
-    return TMath::Sqrt(dphi*dphi + deta*deta);
 }
 
 void GetFiles(char const* input, vector<string>& files) {
@@ -98,13 +95,13 @@ int Efficiency(char const* input) {
 
     TChain l1uGTChain("l1uGTTree/L1uGTTree");
     FillChain(l1uGTChain, files);
-    TList * aliases = l1uGTChain->GetTree()->GetListOfAliases();
+    TList * aliases = l1uGTChain.GetTree()->GetListOfAliases();
     TIter iter(aliases);
     std::vector<std::string> names;
     std::for_each(iter.Begin(), TIter::End(), [&](TObject* alias){ names.push_back(alias->GetName()); } );
     std::map<std::string, std::string> SeedAlias;
     for (auto const & name: names) {
-      SeedAlias[name] = l1uGTChain->GetAlias(name.c_str());
+      SeedAlias[name] = l1uGTChain.GetAlias(name.c_str());
     }
 
     std::map<std::string, std::string> XMLConv;
@@ -183,14 +180,6 @@ int Efficiency(char const* input) {
 
         /* iterate through trks and do selection */
         for (int i = 0; i < *nTrk; ++i) {
-            /*if(
-                //glbmuon1 && 
-                recomuIsTrk[i] &&
-                innermuTrkL[i] > 5 &&
-                innermuPixL[i] > 0 &&
-                innerDxy[i] < 0.3 &&
-                innerDz[i] < 20.
-                ) softmuon = 1;*/
             if (trkHP[i]) NtrkHP++;
             r = TMath::Sqrt(xVtx[i]*xVtx[i]+yVtx[i]*yVtx[i]);
             rho = TMath::Sqrt(xVtx[i]*xVtx[i]+yVtx[i]*yVtx[i]+zVtx[i]*zVtx[i]);
