@@ -176,8 +176,8 @@ int Efficiency(char const* input) {
         if(SeedBit[seed.c_str()]>=m_algoDecisionInitial.size()) return false;
         else return l1uGTdecision = m_algoDecisionInitial.at(bit); 
 
-        #if (IsInit) return l1uGTdecision = l1uGT_->getAlgoDecisionInitial(SeedBit[seed.c_str()]);
-        #else return l1uGTdecision = l1uGT_->getAlgoDecisionFinal(SeedBit[seed.c_str()]);
+        //if (IsInit) return l1uGTdecision = l1uGT_->getAlgoDecisionInitial(SeedBit[seed.c_str()]);
+        //else return l1uGTdecision = l1uGT_->getAlgoDecisionFinal(SeedBit[seed.c_str()]);
 
         //bool softmuon = 0;
         int NtrkHP = 0;
