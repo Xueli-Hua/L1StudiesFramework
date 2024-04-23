@@ -96,6 +96,8 @@ int Efficiency(char const* input) {
     FillChain(l1uGTChain, files);
     TTreeReader l1uGTReader(&l1uGTChain);
 
+    cout << "test for ugt" << endl;
+
     TList * aliases = l1uGTChain.GetTree()->GetListOfAliases();
     TIter iter(aliases);
     std::vector<std::string> names;
@@ -104,7 +106,7 @@ int Efficiency(char const* input) {
     for (auto const & name: names) {
       SeedAlias[name] = l1uGTChain.GetAlias(name.c_str());
     }
-
+    cout << "test for ugt" << endl;
     std::map<std::string, std::string> XMLConv;
     std::map<std::string, unsigned int> SeedBit;
     for (auto const & name: SeedAlias) {
