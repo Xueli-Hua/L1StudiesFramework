@@ -53,13 +53,13 @@ public:
     void setPreScColumn(int psC)    { m_preScColumn    = psC; }
 
     /// get simple members
-    inline const int getL1MenuUUID() const      { return m_orbitNr; }
-    inline const int getL1FirmwareUUID() const  { return m_bxNr; }
-    inline const int getbxInEventNr() const     { return m_bxInEvent; }
-    inline const bool getFinalOR() const        { return m_finalOR; }
-    inline const bool getFinalORPreVeto() const { return m_finalORPreVeto; };
-    inline const bool getFinalORVeto() const    { return m_finalORVeto; }
-    inline const int getPreScColumn() const     { return m_preScColumn; }
+    inline int getL1MenuUUID() const      { return m_orbitNr; }
+    inline int getL1FirmwareUUID() const  { return m_bxNr; }
+    inline int getbxInEventNr() const     { return m_bxInEvent; }
+    inline bool getFinalOR() const        { return m_finalOR; }
+    inline bool getFinalORPreVeto() const { return m_finalORPreVeto; };
+    inline bool getFinalORVeto() const    { return m_finalORVeto; }
+    inline int getPreScColumn() const     { return m_preScColumn; }
 
     /// Copy vectors words
     void copyInitialToInterm() { m_algoDecisionPreScaled   = m_algoDecisionInitial; }
