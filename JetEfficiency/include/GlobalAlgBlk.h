@@ -21,21 +21,11 @@
 #include <iomanip>
 
 // user include files
-#include "FWCore/Utilities/interface/typedefs.h"
-#include "DataFormats/L1Trigger/interface/BXVector.h"
-//#include "DataFormats/L1GlobalTrigger/interface/L1GlobalTriggerReadoutSetup.h"
-#include "DataFormats/L1Trigger/interface/L1TObjComparison.h"
 
 // forward declarations
 
 
 class GlobalAlgBlk;
-typedef BXVector<GlobalAlgBlk> GlobalAlgBlkBxCollection;
-
-typedef l1t::ObjectRef<GlobalAlgBlk> GlobalAlgBlkRef;
-typedef l1t::ObjectRefBxCollection<GlobalAlgBlk> GlobalAlgBlkRefBxCollection;
-typedef l1t::ObjectRefPair<GlobalAlgBlk> GlobalAlgBlkRefPair;
-typedef l1t::ObjectRefPairBxCollection<GlobalAlgBlk> GlobalAlgBlkRefPairBxCollection;
 
 // class interface
 
