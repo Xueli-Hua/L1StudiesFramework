@@ -92,14 +92,12 @@ int Efficiency(char const* input) {
     TTreeReader recoMuReader(&recoMuChain);
     TTreeReader trkReader(&trkChain);
 
-    TChain l1uGTChainForBit("l1uGTTree/L1uGTTree");
-    FillChain(l1uGTChainForBit, files);
+    //TChain l1uGTChainForBit("l1uGTTree/L1uGTTree");
+    //FillChain(l1uGTChainForBit, files);
 
     TChain l1uGTChain("l1uGTTree/L1uGTTree");
     FillChain(l1uGTChain, files);
     TTreeReader l1uGTReader(&l1uGTChain);
-
-    cout << "test for ugt" << endl;
 
     TTreeReaderValue<int> nTrk(trkReader, "nTrk");
     TTreeReaderArray<bool> isFake(trkReader, "isFakeVtx");
@@ -130,19 +128,18 @@ int Efficiency(char const* input) {
     TTreeReaderValue<vector<unsigned short>> l1muQual(l1Reader, "muonQual");
 
     TTreeReaderArray<bool> m_algoDecisionInitial(l1uGTReader, "m_algoDecisionInitial");
-    cout << "test for ugt" << endl;
-
-    (&l1uGTChainForBit)->GetEntry(1);
-    TTree * ugtree = (&l1uGTChainForBit)->GetTree();cout << "test for ugt" << endl;
-    TList * aliases = ugtree->GetListOfAliases();cout << "test for ugt" << endl;
-    TIter iter(aliases);cout << "test for ugt" << endl;
-    std::vector<std::string> names;cout << "test for ugt" << endl;
-    std::for_each(iter.Begin(), TIter::End(), [&](TObject* alias){ names.push_back(alias->GetName()); } );cout << "test for ugt" << endl;
-    std::map<std::string, std::string> SeedAlias;cout << "test for ugt" << endl;
+    
+    (&l1uGTChain)->GetEntry(1);
+    TTree * ugtree = (&l1uGTChain)->GetTree();
+    TList * aliases = ugtree->GetListOfAliases();
+    TIter iter(aliases);
+    std::vector<std::string> names;
+    std::for_each(iter.Begin(), TIter::End(), [&](TObject* alias){ names.push_back(alias->GetName()); } );
+    std::map<std::string, std::string> SeedAlias;
     for (auto const & name: names) {
-      SeedAlias[name] = l1uGTChainForBit.GetAlias(name.c_str());
+      SeedAlias[name] = l1uGTChain.GetAlias(name.c_str());
     }
-    cout << "test for ugt" << endl;
+    
     std::map<std::string, std::string> XMLConv;
     std::map<std::string, unsigned int> SeedBit;
     for (auto const & name: SeedAlias) {
@@ -152,10 +149,7 @@ int Efficiency(char const* input) {
         SeedBit[name.first] = ParseAlias(name.second);
     }
 
-    cout << "test for ugt" << endl;
-    
     string seed = "L1_SingleMuonOpen_NotMinimumBiasHF2_AND_BptxAND";
-    //bool IsInit = true;
     bool l1uGTdecision;
 
     /* create histograms for efficiency plots */
@@ -163,11 +157,8 @@ int Efficiency(char const* input) {
     float min = 0;
     float max = 10;
 
-    TH1F rHist("rHist", "", 200, 0, 200);
     TH1F rhoHist("rhoHist", "", 200, 0, 200);
-    TH1F isfake("isfake", "", 2, 0, 2);
     TH1F l1muHist("l1muHist", "", nbins, min, max);
-    TH1F l1MaxmuHist("l1MaxmuHist","",10,-1000,1000);
     TH1F recomuHist("recomuHist", "", nbins, min, max);
 
     Long64_t totalEvents = l1Reader.GetEntries(true);
@@ -179,39 +170,30 @@ int Efficiency(char const* input) {
         if (i % 1 == 0) { 
             cout << "Entry: " << i << " / " <<  totalEvents << endl; 
         }
-        cout << "test for ugt" << endl;
+        
         if (SeedBit.find(seed.c_str()) == SeedBit.end()) continue;
-
         if(SeedBit[seed.c_str()]>=m_algoDecisionInitial.GetSize()) continue;
-        else l1uGTdecision = m_algoDecisionInitial.At(SeedBit[seed.c_str()]); 
-
-        //if (IsInit) return l1uGTdecision = l1uGT_->getAlgoDecisionInitial(SeedBit[seed.c_str()]);
-        //else l1uGTdecision = l1uGT_->getAlgoDecisionFinal(SeedBit[seed.c_str()]);
-        cout << "test for ugt" << endl;
+        l1uGTdecision = m_algoDecisionInitial.At(SeedBit[seed.c_str()]); 
+        
         //bool softmuon = 0;
         int NtrkHP = 0;
-        float l1MaxMuPt = -999;
         double rho;
-        double r;
 
+        bool primaryVertext = (!isFake && TMath::Abs(zVtx)<25 && !(TMath::Sqrt(xVtx*xVtx+yVtx*yVtx)>2));
+        if (!primaryVertext) continue;
+        
         /* iterate through trks and do selection */
         for (int i = 0; i < *nTrk; ++i) {
             if (trkHP[i]) NtrkHP++;
-            r = TMath::Sqrt(xVtx[i]*xVtx[i]+yVtx[i]*yVtx[i]);
-            rho = TMath::Sqrt(xVtx[i]*xVtx[i]+yVtx[i]*yVtx[i]+zVtx[i]*zVtx[i]);
+            rho = TMath::Sqrt(xVtx[i]*xVtx[i]+yVtx[i]*yVtx[i]);
             rHist.Fill(r);
             rhoHist.Fill(rho);
-            isfake.Fill(isFake[i]);
         }
         if (NtrkHP!=2) continue;
 
         /* iterate through l1object muons and find max et */
-        for (size_t j = 0; j < (*l1muEt).size(); ++j) { if ((*l1muEt)[j] > l1MaxMuPt) { l1MaxMuPt = (*l1muEt)[j]; } }
-        l1MaxmuHist.Fill(l1MaxMuPt);
-
         for (int i = 0; i < *recomuN; ++i) {
-            //if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i] && innerIsHPTrk[i] && recomuIDSoft[i]) { 
-            if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i] && recomuIDSoft[i]) { 
+            if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i] && recomuIDHySoft) { 
                 recomuHist.Fill(recomuPt[i]); 
                 if (l1uGTdecision) l1muHist.Fill(recomuPt[i]);
             }
@@ -219,7 +201,7 @@ int Efficiency(char const* input) {
     }
     //TGraphAsymmErrors RecoMuEff(&l1muHist, &recomuHist, "cl=0.683 b(1,1) mode");
     TGraphAsymmErrors RecoMuEff(&l1muHist, &recomuHist);
-    cout << "test for ugt" << endl;
+    
     /* plot the turn ons vs reco mu pt */
     TCanvas recoCanvas("recoCanvas", "", 0, 0, 500, 500);
     recoCanvas.cd();
@@ -254,10 +236,8 @@ int Efficiency(char const* input) {
     /* save histograms to file so I can look at them */
     TFile* fout = new TFile("muhistograms.root", "recreate");
 
-    rHist.Write();
     rhoHist.Write();
     l1muHist.Write();
-    l1MaxmuHist.Write();
     recomuHist.Write();
 
     fout->Close();
