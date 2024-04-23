@@ -173,8 +173,8 @@ int Efficiency(char const* input) {
         
         if (SeedBit.find(seed.c_str()) == SeedBit.end()) return false;
 
-        if(SeedBit[seed.c_str()]>=m_algoDecisionInitial.size()) return false;
-        else return l1uGTdecision = m_algoDecisionInitial.at(bit); 
+        if(SeedBit[seed.c_str()]>=m_algoDecisionInitial.GetSize()) return false;
+        else return l1uGTdecision = m_algoDecisionInitial.At(SeedBit[seed.c_str()]); 
 
         //if (IsInit) return l1uGTdecision = l1uGT_->getAlgoDecisionInitial(SeedBit[seed.c_str()]);
         //else return l1uGTdecision = l1uGT_->getAlgoDecisionFinal(SeedBit[seed.c_str()]);
