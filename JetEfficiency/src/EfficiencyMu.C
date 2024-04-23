@@ -121,23 +121,23 @@ int Efficiency(char const* input) {
     TTreeReaderValue<vector<unsigned short>> l1muQual(l1Reader, "muonQual");
 
     /* read in L1uGT information */
-    //TChain l1uGTChainForBit("l1uGTTree/L1uGTTree");
-    //FillChain(l1uGTChainForBit, files);
+    TChain l1uGTChainForBit("l1uGTTree/L1uGTTree");
+    FillChain(l1uGTChainForBit, files);
 
     TChain l1uGTChain("l1uGTTree/L1uGTTree");
     FillChain(l1uGTChain, files);
     TTreeReader l1uGTReader(&l1uGTChain);
     TTreeReaderArray<bool> m_algoDecisionInitial(l1uGTReader, "m_algoDecisionInitial");
     
-    (&l1uGTChain)->GetEntry(1);
-    TTree * ugtree = (&l1uGTChain)->GetTree();
+    (&l1uGTChainForBit)->GetEntry(1);
+    TTree * ugtree = (&l1uGTChainForBit)->GetTree();
     TList * aliases = ugtree->GetListOfAliases();
     TIter iter(aliases);
     std::vector<std::string> names;
     std::for_each(iter.Begin(), TIter::End(), [&](TObject* alias){ names.push_back(alias->GetName()); } );
     std::map<std::string, std::string> SeedAlias;
     for (auto const & name: names) {
-      SeedAlias[name] = l1uGTChain.GetAlias(name.c_str());
+      SeedAlias[name] = l1uGTChainForBit.GetAlias(name.c_str());
     }
     
     std::map<std::string, std::string> XMLConv;
