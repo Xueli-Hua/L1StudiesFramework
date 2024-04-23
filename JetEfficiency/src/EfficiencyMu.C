@@ -183,11 +183,10 @@ int Efficiency(char const* input) {
         for (int i = 0; i < *nTrk; ++i) {
             rho = TMath::Sqrt(xVtx[i]*xVtx[i]+yVtx[i]*yVtx[i]);
             rhoHist.Fill(rho);
-
             primaryVertex = (!isFake[i] && TMath::Abs(zVtx[i])<25 && !(TMath::Sqrt(xVtx[i]*xVtx[i]+yVtx[i]*yVtx[i])>2));
-            if (!primaryVertex) continue;
             if (trkHP[i]) NtrkHP++;
         }
+        if (!primaryVertex) continue;
         if (NtrkHP!=2) continue;
 
         /* iterate through l1object muons and find max et */
