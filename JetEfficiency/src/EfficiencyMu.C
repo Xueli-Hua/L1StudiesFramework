@@ -32,7 +32,7 @@ Output: A plot of the jet turn-ons with and with out L1 dR matching vs calo jet 
 using namespace std;
 GlobalAlgBlk *l1uGT_;
 
-unsigned int ParseAlias(std::string alias) 
+unsigned int ParseAlias(std::string alias) const
 {
   std::smatch base_match;
   std::regex integer("L1uGT\\.m_algoDecisionInitial\\[([0-9]+)\\]");
