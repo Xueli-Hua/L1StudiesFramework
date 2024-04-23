@@ -94,6 +94,8 @@ int Efficiency(char const* input) {
 
     TChain l1uGTChain("l1uGTTree/L1uGTTree");
     FillChain(l1uGTChain, files);
+    TTreeReader l1uGTReader(&l1uGTChain);
+
     TList * aliases = l1uGTChain.GetTree()->GetListOfAliases();
     TIter iter(aliases);
     std::vector<std::string> names;
@@ -139,6 +141,8 @@ int Efficiency(char const* input) {
     TTreeReaderValue<vector<float>> l1muEt(l1Reader, "muonEt");
     TTreeReaderValue<vector<float>> l1muEta(l1Reader, "muonEta");
     TTreeReaderValue<vector<unsigned short>> l1muQual(l1Reader, "muonQual");
+
+    TTreeReaderArray<bool> m_algoDecisionInitial(l1uGTReader, "m_algoDecisionInitial");
     
     string seed = "L1_SingleMuonOpen_NotMinimumBiasHF2_AND_BptxAND";
     bool IsInit = true;
@@ -168,8 +172,12 @@ int Efficiency(char const* input) {
 
         
         if (SeedBit.find(seed.c_str()) == SeedBit.end()) return false;
-        if (IsInit) return l1uGTdecision = l1uGT_->getAlgoDecisionInitial(SeedBit[seed.c_str()]);
-        else return l1uGTdecision = l1uGT_->getAlgoDecisionFinal(SeedBit[seed.c_str()]);
+
+        if(SeedBit[seed.c_str()]>=m_algoDecisionInitial.size()) return false;
+        else return l1uGTdecision = m_algoDecisionInitial.at(bit); 
+
+        #if (IsInit) return l1uGTdecision = l1uGT_->getAlgoDecisionInitial(SeedBit[seed.c_str()]);
+        #else return l1uGTdecision = l1uGT_->getAlgoDecisionFinal(SeedBit[seed.c_str()]);
 
         //bool softmuon = 0;
         int NtrkHP = 0;
