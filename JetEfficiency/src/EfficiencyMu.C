@@ -167,7 +167,7 @@ int Efficiency(char const* input) {
     for (Long64_t i = 0; i < totalEvents; i++) {
         l1Reader.Next(); recoMuReader.Next(); trkReader.Next(); l1uGTReader.Next();
 
-        if (i % 1 == 0) { 
+        if (i % 20000 == 0) { 
             cout << "Entry: " << i << " / " <<  totalEvents << endl; 
         }
         
