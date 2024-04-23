@@ -114,6 +114,8 @@ int Efficiency(char const* input) {
         SeedBit[name.first] = ParseAlias(name.second);
     }
 
+    cout << "test for ugt" << endl;
+
     TTreeReaderValue<int> nTrk(trkReader, "nTrk");
     TTreeReaderArray<bool> isFake(trkReader, "isFakeVtx");
     TTreeReaderArray<bool> trkHP(trkReader, "highPurity");
@@ -143,6 +145,7 @@ int Efficiency(char const* input) {
     TTreeReaderValue<vector<unsigned short>> l1muQual(l1Reader, "muonQual");
 
     TTreeReaderArray<bool> m_algoDecisionInitial(l1uGTReader, "m_algoDecisionInitial");
+    cout << "test for ugt" << endl;
     
     string seed = "L1_SingleMuonOpen_NotMinimumBiasHF2_AND_BptxAND";
     //bool IsInit = true;
