@@ -229,10 +229,10 @@ int Efficiency(char const* input) {
     recoline.SetLineColor(46);
     recoline.Draw();
 
-    recoCanvas.SaveAs("RecomuEfficiency.pdf");
+    recoCanvas.SaveAs("non.pdf");
 
     // save histograms to file so I can look at them 
-    TFile* fout = new TFile("muhistograms.root", "recreate");
+    TFile* fout = new TFile("non.root", "recreate");
 
     zVtxHist.Write();
     l1muHist.Write();
