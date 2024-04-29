@@ -85,7 +85,7 @@ int Efficiency(char const* input) {
     GetFiles(input, files);
 
     // read in reco mu and trk information 
-    TChain recoMuChain("muonAnalyzer/MuonTree");
+    /*TChain recoMuChain("muonAnalyzer/MuonTree");
     TChain trkChain("PbPbTracks/trackTree");
     FillChain(recoMuChain, files);
     FillChain(trkChain, files);
@@ -118,7 +118,7 @@ int Efficiency(char const* input) {
     TTreeReader l1Reader(&l1Chain);
     TTreeReaderValue<vector<float>> l1muEt(l1Reader, "muonEt");
     TTreeReaderValue<vector<float>> l1muEta(l1Reader, "muonEta");
-    TTreeReaderValue<vector<unsigned short>> l1muQual(l1Reader, "muonQual");
+    TTreeReaderValue<vector<unsigned short>> l1muQual(l1Reader, "muonQual");*/
 
     // read in L1uGT information 
     TChain l1uGTChainForBit("l1uGTTree/L1uGTTree");
@@ -163,10 +163,11 @@ int Efficiency(char const* input) {
     TH1F recomuHist("recomuHist", "", nbins, min, max);
 
     Double_t num=0;
-    Long64_t totalEvents = l1Reader.GetEntries(true);
+    Long64_t totalEvents = l1uGTReader.GetEntries(true);
     // read in information from TTrees 
     for (Long64_t i = 0; i < totalEvents; i++) {
-        l1Reader.Next(); recoMuReader.Next(); trkReader.Next(); l1uGTReader.Next();
+        l1uGTReader.Next();
+        //l1Reader.Next(); recoMuReader.Next(); trkReader.Next(); 
         if (i % 20000 == 0) { 
             cout << "Entry: " << i << " / " <<  totalEvents << endl; 
         }
@@ -175,7 +176,7 @@ int Efficiency(char const* input) {
         l1uGTdecision = m_algoDecisionInitial.At(SeedBit[seed.c_str()]);
         if (l1uGTdecision) num++;
       
-        int NtrkHP = 0;
+        /*int NtrkHP = 0;
         bool primaryVertex=false;
 
         // iterate through trks and do selection 
@@ -195,9 +196,9 @@ int Efficiency(char const* input) {
                 if (l1uGTdecision) l1muHist.Fill(recomuPt[i]);
             }
         }
+        */
     }
     cout << "rate: " << num/totalEvents << endl;
-    //TGraphAsymmErrors RecoMuEff(&l1muHist, &recomuHist, "cl=0.683 b(1,1) mode");
     TGraphAsymmErrors RecoMuEff(&l1muHist, &recomuHist);
     
     // plot the turn ons vs reco mu pt 
