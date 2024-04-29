@@ -80,11 +80,11 @@ void FillChain(TChain& chain, vector<string>& files) {
 }
 //
 int Efficiency(char const* input) {
-    /* read in all files in the input folder */
+    // read in all files in the input folder 
     vector<string> files;
     GetFiles(input, files);
 
-    /* read in reco mu and trk information */
+    // read in reco mu and trk information 
     TChain recoMuChain("muonAnalyzer/MuonTree");
     TChain trkChain("PbPbTracks/trackTree");
     FillChain(recoMuChain, files);
@@ -112,7 +112,7 @@ int Efficiency(char const* input) {
     TTreeReaderArray<float> innerDz(recoMuReader, "innerDz");
     TTreeReaderArray<bool> innerIsHPTrk(recoMuReader, "innerIsHighPurityTrack");
     
-    /* read in emulated mu information */
+    // read in emulated mu information 
     TChain l1Chain("l1object/L1UpgradeFlatTree");
     FillChain(l1Chain, files);
     TTreeReader l1Reader(&l1Chain);
@@ -120,7 +120,7 @@ int Efficiency(char const* input) {
     TTreeReaderValue<vector<float>> l1muEta(l1Reader, "muonEta");
     TTreeReaderValue<vector<unsigned short>> l1muQual(l1Reader, "muonQual");
 
-    /* read in L1uGT information */
+    // read in L1uGT information 
     TChain l1uGTChainForBit("l1uGTTree/L1uGTTree");
     FillChain(l1uGTChainForBit, files);
 
@@ -149,11 +149,12 @@ int Efficiency(char const* input) {
         SeedBit[name.first] = ParseAlias(name.second);
     }
 
-    string seed = "L1_SingleMuOpen_NotMinimumBiasHF2_AND_BptxAND";
+    //string seed = "L1_SingleMuOpen_NotMinimumBiasHF2_AND_BptxAND"; 
+    string seed = "L1_ZDC1n_AsymXOR"; 
     if (SeedBit.find(seed.c_str()) == SeedBit.end()) return false;
     bool l1uGTdecision;
 
-    /* create histograms for efficiency plots */
+    // create histograms for efficiency plots 
     int nbins = 25;
     float min = 0;
     float max = 10;
@@ -161,22 +162,23 @@ int Efficiency(char const* input) {
     TH1F l1muHist("l1muHist", "", nbins, min, max);
     TH1F recomuHist("recomuHist", "", nbins, min, max);
 
+    Double_t num=0;
     Long64_t totalEvents = l1Reader.GetEntries(true);
-    /* read in information from TTrees */
+    // read in information from TTrees 
     for (Long64_t i = 0; i < totalEvents; i++) {
         l1Reader.Next(); recoMuReader.Next(); trkReader.Next(); l1uGTReader.Next();
-
         if (i % 20000 == 0) { 
             cout << "Entry: " << i << " / " <<  totalEvents << endl; 
         }
 
         if (SeedBit[seed.c_str()]>=m_algoDecisionInitial.GetSize()) continue;  
-        l1uGTdecision = m_algoDecisionInitial.At(SeedBit[seed.c_str()]); 
+        l1uGTdecision = m_algoDecisionInitial.At(SeedBit[seed.c_str()]);
+        if (l1uGTdecision) num++;
       
         int NtrkHP = 0;
         bool primaryVertex=false;
-        
-        /* iterate through trks and do selection */
+
+        // iterate through trks and do selection 
         for (int i = 0; i < *nTrk; ++i) {
             //rho = TMath::Sqrt(xVtx[i]*xVtx[i]+yVtx[i]*yVtx[i]);
             zVtxHist.Fill(TMath::Abs(zVtx[i]));
@@ -186,7 +188,7 @@ int Efficiency(char const* input) {
         if (!primaryVertex) continue;
         if (NtrkHP!=2) continue;
 
-        /* iterate through l1object muons and find max et */
+        // iterate through l1object muons and find max et 
         for (int i = 0; i < *recomuN; ++i) {
             if (recomuP[i]>2.5 && TMath::Abs(recomuEta[i]) < 2.4 && recomuIsTrk[i] && recomuIDHySoft[i]) { 
                 recomuHist.Fill(recomuPt[i]); 
@@ -194,10 +196,11 @@ int Efficiency(char const* input) {
             }
         }
     }
+    cout << "rate: " << num/totalEvents << endl;
     //TGraphAsymmErrors RecoMuEff(&l1muHist, &recomuHist, "cl=0.683 b(1,1) mode");
     TGraphAsymmErrors RecoMuEff(&l1muHist, &recomuHist);
     
-    /* plot the turn ons vs reco mu pt */
+    // plot the turn ons vs reco mu pt 
     TCanvas recoCanvas("recoCanvas", "", 0, 0, 500, 500);
     recoCanvas.cd();
 
@@ -228,7 +231,7 @@ int Efficiency(char const* input) {
 
     recoCanvas.SaveAs("RecomuEfficiency.pdf");
 
-    /* save histograms to file so I can look at them */
+    // save histograms to file so I can look at them 
     TFile* fout = new TFile("muhistograms.root", "recreate");
 
     zVtxHist.Write();
