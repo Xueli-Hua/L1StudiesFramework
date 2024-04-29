@@ -151,7 +151,8 @@ int Efficiency(char const* input) {
 
     //string seed = "L1_SingleMuOpen_NotMinimumBiasHF2_AND_BptxAND"; 
     //string seed = "L1_ZDC1n_AsymXOR"; 
-    string seed = "L1_AlwaysTrue";
+    //string seed = "L1_AlwaysTrue";
+    string seed = "L1_ZeroBias";
     if (SeedBit.find(seed.c_str()) == SeedBit.end()) return false;
     bool l1uGTdecision;
 
