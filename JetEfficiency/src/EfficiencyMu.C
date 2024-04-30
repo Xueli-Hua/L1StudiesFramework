@@ -185,13 +185,13 @@ int Efficiency(char const* input) {
             cout << "Entry: " << i << " / " <<  totalEvents << endl; 
         }
 
-        if (SeedBit[seed.c_str()]>=m_algoDecisionInitial.GetSize()) continue;  
+        if (SeedBit[seedzdc.c_str()]>=m_algoDecisionInitial.GetSize()) continue;  
         l1uGTdecision1 = m_algoDecisionInitial.At(SeedBit[seedzdc.c_str()]);
         l1uGTdecision2 = m_algoDecisionInitial.At(SeedBit[seedtrue.c_str()]);
-        l1uGTdecision3 = m_algoDecisionInitial.At(SeedBit[seed.c_str()]);
+        l1uGTdecision3 = m_algoDecisionInitial.At(SeedBit[seedsgmo.c_str()]);
         if (l1uGTdecision1) zdcnum++;
         if (l1uGTdecision2) truenum++;
-        if (l1uGTdecision3) num++;
+        if (l1uGTdecision3) sgmonum++;
       
         /*int NtrkHP = 0;
         bool primaryVertex=false;
@@ -241,7 +241,7 @@ int Efficiency(char const* input) {
     recoLegend.SetBorderSize(0);
     recoLegend.SetFillStyle(0);
     recoLegend.SetTextSize(0.03);
-    recoLegend.SetHeader(seed.c_str());
+    recoLegend.SetHeader(seedzdc.c_str());
     //recoLegend.AddEntry(&RecoMuEff, "#DeltaR Matched", "lep");
     recoLegend.Draw();
 
