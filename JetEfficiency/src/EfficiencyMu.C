@@ -175,7 +175,7 @@ int Efficiency(char const* input) {
 
     Double_t zdcnum=0;
     Double_t truenum=0;
-    Double_t num=0;
+    Double_t sgmonum=0;
     Long64_t totalEvents = l1uGTReader.GetEntries(true);
     // read in information from TTrees 
     for (Long64_t i = 0; i < totalEvents; i++) {
