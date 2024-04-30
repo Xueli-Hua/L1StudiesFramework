@@ -150,16 +150,16 @@ int Efficiency(char const* input) {
         SeedBit[name.first] = ParseAlias(name.second);
     }
 
-    ofstream trignames;
+    /*ofstream trignames;
     trignames.open("trigs.txt");
     for (auto const & name: names) trignames << name.c_str() << endl;
-    trignames.close();
+    trignames.close();*/
     
 
     //string seed = "L1_SingleMuOpen_NotMinimumBiasHF2_AND_BptxAND"; 
-    //string seed = "L1_ZDC1n_AsymXOR"; 
+    string seed = "L1_ZDC1n_AsymXOR"; 
     //string seed = "L1_AlwaysTrue";
-    string seed = "L1_SingleMu3";
+    //string seed = "L1_SingleMu3";
     if (SeedBit.find(seed.c_str()) == SeedBit.end()) return false;
     bool l1uGTdecision;
 
