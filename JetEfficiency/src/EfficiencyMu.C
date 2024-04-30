@@ -217,7 +217,7 @@ int Efficiency(char const* input) {
     }
     cout << "L1_ZDC1n_AsymXOR rate: " << zdcnum << "/" << totalEvents << " = " << zdcnum/totalEvents << endl;
     cout << "L1_AlwaysTrue rate: " << truenum << "/" << totalEvents << " = " << truenum/totalEvents << endl;
-    cout << "L1_AlwaysTrue rate: " << sgmonum << "/" << totalEvents << " = " << sgmonum/totalEvents << endl;
+    cout << "L1_SingleMuOpen rate: " << sgmonum << "/" << totalEvents << " = " << sgmonum/totalEvents << endl;
     TGraphAsymmErrors RecoMuEff(&l1muHist, &recomuHist);
     
     // plot the turn ons vs reco mu pt 
