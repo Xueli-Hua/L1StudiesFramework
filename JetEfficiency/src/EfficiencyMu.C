@@ -157,11 +157,13 @@ int Efficiency(char const* input) {
     
 
     //string seed = "L1_SingleMuOpen_NotMinimumBiasHF2_AND_BptxAND"; 
-    string seed = "L1_ZDC1n_AsymXOR"; 
-    //string seed = "L1_AlwaysTrue";
-    //string seed = "L1_SingleMu3";
-    if (SeedBit.find(seed.c_str()) == SeedBit.end()) return false;
-    bool l1uGTdecision;
+    string seedzdc = "L1_ZDC1n_AsymXOR"; 
+    string seedtrue = "L1_AlwaysTrue";
+    string seedsgmo = "L1_SingleMuOpen";
+    if (SeedBit.find(seedzdc.c_str()) == SeedBit.end()) return false;
+    bool l1uGTdecision1;
+    bool l1uGTdecision2;
+    bool l1uGTdecision3;
 
     // create histograms for efficiency plots 
     int nbins = 25;
@@ -171,6 +173,8 @@ int Efficiency(char const* input) {
     TH1F l1muHist("l1muHist", "", nbins, min, max);
     TH1F recomuHist("recomuHist", "", nbins, min, max);
 
+    Double_t zdcnum=0;
+    Double_t truenum=0;
     Double_t num=0;
     Long64_t totalEvents = l1uGTReader.GetEntries(true);
     // read in information from TTrees 
@@ -182,8 +186,12 @@ int Efficiency(char const* input) {
         }
 
         if (SeedBit[seed.c_str()]>=m_algoDecisionInitial.GetSize()) continue;  
-        l1uGTdecision = m_algoDecisionInitial.At(SeedBit[seed.c_str()]);
-        if (l1uGTdecision) num++;
+        l1uGTdecision1 = m_algoDecisionInitial.At(SeedBit[seedzdc.c_str()]);
+        l1uGTdecision2 = m_algoDecisionInitial.At(SeedBit[seedtrue.c_str()]);
+        l1uGTdecision3 = m_algoDecisionInitial.At(SeedBit[seed.c_str()]);
+        if (l1uGTdecision1) zdcnum++;
+        if (l1uGTdecision2) truenum++;
+        if (l1uGTdecision3) num++;
       
         /*int NtrkHP = 0;
         bool primaryVertex=false;
@@ -207,7 +215,9 @@ int Efficiency(char const* input) {
         }
         */
     }
-    cout << "rate: " << num/totalEvents << endl;
+    cout << "L1_ZDC1n_AsymXOR rate: " << zdcnum << "/" << totalEvents << " = " << zdcnum/totalEvents << endl;
+    cout << "L1_AlwaysTrue rate: " << truenum << "/" << totalEvents << " = " << truenum/totalEvents << endl;
+    cout << "L1_AlwaysTrue rate: " << sgmonum << "/" << totalEvents << " = " << sgmonum/totalEvents << endl;
     TGraphAsymmErrors RecoMuEff(&l1muHist, &recomuHist);
     
     // plot the turn ons vs reco mu pt 
