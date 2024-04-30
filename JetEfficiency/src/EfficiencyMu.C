@@ -23,6 +23,7 @@ Output: A plot of the jet turn-ons with and with out L1 dR matching vs calo jet 
 #include <string>
 #include <vector>
 #include <iostream>
+#include <fstream>
 
 #include <regex>
 #include <map>
@@ -148,6 +149,12 @@ int Efficiency(char const* input) {
       else
         SeedBit[name.first] = ParseAlias(name.second);
     }
+
+    ofstream trignames;
+    trignames.open("trigs.txt");
+    for (auto const & name: names) trignames << name.c_str() << endl;
+    trignames.close();
+    
 
     //string seed = "L1_SingleMuOpen_NotMinimumBiasHF2_AND_BptxAND"; 
     //string seed = "L1_ZDC1n_AsymXOR"; 
