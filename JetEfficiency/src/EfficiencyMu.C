@@ -155,7 +155,6 @@ int Efficiency(char const* input) {
     for (auto const & name: names) trignames << name.c_str() << endl;
     trignames.close();*/
     
-
     //string seed = "L1_SingleMuOpen_NotMinimumBiasHF2_AND_BptxAND"; 
     string seedzdc = "L1_ZDC1n_AsymXOR"; 
     string seedtrue = "L1_AlwaysTrue";
@@ -164,6 +163,12 @@ int Efficiency(char const* input) {
     bool l1uGTdecision1;
     bool l1uGTdecision2;
     bool l1uGTdecision3;
+
+    // read in l1UpgradeTree 
+    TChain l1UpgChain("l1UpgradeTree/L1UpgradeTree");
+    FillChain(l1UpgChain, files);
+    TTreeReader l1UpgReader(&l1UpgChain);
+    TTreeReaderValue<int> nSumsZDC(l1UpgReader, "nSumsZDC");
 
     // create histograms for efficiency plots 
     int nbins = 25;
@@ -189,7 +194,10 @@ int Efficiency(char const* input) {
         l1uGTdecision1 = m_algoDecisionInitial.At(SeedBit[seedzdc.c_str()]);
         l1uGTdecision2 = m_algoDecisionInitial.At(SeedBit[seedtrue.c_str()]);
         l1uGTdecision3 = m_algoDecisionInitial.At(SeedBit[seedsgmo.c_str()]);
-        if (l1uGTdecision1) zdcnum++;
+        if (l1uGTdecision1) {
+          zdcnum++;
+          cout << "iEvt: " << i << ", nSumsZDC: " << nSumsZDC << endl;
+        }
         if (l1uGTdecision2) truenum++;
         if (l1uGTdecision3) sgmonum++;
       
