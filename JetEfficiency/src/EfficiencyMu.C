@@ -168,7 +168,7 @@ int Efficiency(char const* input) {
     TChain l1UpgChain("l1UpgradeTree/L1UpgradeTree");
     FillChain(l1UpgChain, files);
     TTreeReader l1UpgReader(&l1UpgChain);
-    TTreeReaderValue<int> nSumsZDC(l1UpgReader, "nSumsZDC");
+    TTreeReaderValue<unsigned short> nSumsZDC(l1UpgReader, "nSumsZDC");
 
     // create histograms for efficiency plots 
     int nbins = 25;
