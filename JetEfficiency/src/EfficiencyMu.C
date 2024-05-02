@@ -156,7 +156,7 @@ int Efficiency(char const* input) {
     trignames.close();
     
     //string seed = "L1_SingleMuOpen_NotMinimumBiasHF2_AND_BptxAND"; 
-    string seedzdc = "L1_ZDC1n_AsymXOR"; 
+    string seedzdc = "L1_ZDC1n_OR"; 
     string seedtrue = "L1_AlwaysTrue";
     string seedsgmo = "L1_SingleMuOpen";
     if (SeedBit.find(seedzdc.c_str()) == SeedBit.end()) return false;
@@ -223,7 +223,7 @@ int Efficiency(char const* input) {
         }
         */
     }
-    cout << "L1_ZDC1n_AsymXOR rate: " << zdcnum << "/" << totalEvents << " = " << zdcnum/totalEvents << endl;
+    cout << "L1_ZDC1n_OR rate: " << zdcnum << "/" << totalEvents << " = " << zdcnum/totalEvents << endl;
     cout << "L1_AlwaysTrue rate: " << truenum << "/" << totalEvents << " = " << truenum/totalEvents << endl;
     cout << "L1_SingleMuOpen rate: " << sgmonum << "/" << totalEvents << " = " << sgmonum/totalEvents << endl;
     TGraphAsymmErrors RecoMuEff(&l1muHist, &recomuHist);
