@@ -150,10 +150,10 @@ int Efficiency(char const* input) {
         SeedBit[name.first] = ParseAlias(name.second);
     }
 
-    /*ofstream trignames;
-    trignames.open("trigs.txt");
+    ofstream trignames;
+    trignames.open("results/trigs.txt");
     for (auto const & name: names) trignames << name.c_str() << endl;
-    trignames.close();*/
+    trignames.close();
     
     //string seed = "L1_SingleMuOpen_NotMinimumBiasHF2_AND_BptxAND"; 
     string seedzdc = "L1_ZDC1n_AsymXOR"; 
@@ -257,10 +257,10 @@ int Efficiency(char const* input) {
     recoline.SetLineColor(46);
     recoline.Draw();
 
-    recoCanvas.SaveAs("non.pdf");
+    recoCanvas.SaveAs("results/non.pdf");
 
     // save histograms to file so I can look at them 
-    TFile* fout = new TFile("non.root", "recreate");
+    TFile* fout = new TFile("results/non.root", "recreate");
 
     zVtxHist.Write();
     l1muHist.Write();
