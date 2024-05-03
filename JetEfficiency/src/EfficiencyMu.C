@@ -194,9 +194,9 @@ int Efficiency(char const* input) {
         l1uGTdecision1 = m_algoDecisionInitial.At(SeedBit[seedzdc.c_str()]);
         l1uGTdecision2 = m_algoDecisionInitial.At(SeedBit[seedtrue.c_str()]);
         l1uGTdecision3 = m_algoDecisionInitial.At(SeedBit[seedsgmo.c_str()]);
+        cout << "iEvt: " << i << ", sumZDCEt.size: " << sumZDCEt.GetSize() << endl;
         if (l1uGTdecision1) {
           zdcnum++;
-          cout << "iEvt: " << i << ", sumZDCEt.size: " << sumZDCEt.GetSize() << endl;
         }
         if (l1uGTdecision2) truenum++;
         if (l1uGTdecision3) sgmonum++;
