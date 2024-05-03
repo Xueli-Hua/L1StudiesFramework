@@ -168,7 +168,7 @@ int Efficiency(char const* input) {
     TChain l1UpgChain("l1UpgradeTree/L1UpgradeTree");
     FillChain(l1UpgChain, files);
     TTreeReader l1UpgReader(&l1UpgChain);
-    TTreeReaderValue<unsigned short> nSumsZDC(l1UpgReader, "nSumsZDC");
+    TTreeReaderArray<float> sumZDCEt(l1UpgReader, "sumZDCEt");
 
     // create histograms for efficiency plots 
     int nbins = 25;
@@ -196,7 +196,7 @@ int Efficiency(char const* input) {
         l1uGTdecision3 = m_algoDecisionInitial.At(SeedBit[seedsgmo.c_str()]);
         if (l1uGTdecision1) {
           zdcnum++;
-          cout << "iEvt: " << i << ", nSumsZDC: " << *nSumsZDC << endl;
+          cout << "iEvt: " << i << ", sumZDCEt.size: " << sumZDCEt.GetSize() << endl;
         }
         if (l1uGTdecision2) truenum++;
         if (l1uGTdecision3) sgmonum++;
