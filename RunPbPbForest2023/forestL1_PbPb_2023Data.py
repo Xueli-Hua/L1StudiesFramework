@@ -20,23 +20,42 @@ process.HiForestInfo.info = cms.vstring("HiForest, miniAOD, 132X, data")
 #####################################################################################
 
 process.source = cms.Source("PoolSource",
-    duplicateCheckMode = cms.untracked.string("noDuplicateCheck"),
     fileNames = cms.untracked.vstring(
-        '/store/hidata/HIRun2023A/HIPhysicsRawPrime0/MINIAOD/PromptReco-v2/000/374/668/00000/06179488-b7e6-44f6-bec9-eb242a290ffd.root'
+        '/store/hidata/HIRun2023A/HIZeroBias0/MINIAOD/PromptReco-v2/000/375/703/00000/18082331-ceab-4a72-a9f8-32847671571f.root',
     ),
     secondaryFileNames = cms.untracked.vstring(
-        '/store/hidata/HIRun2023A/HIPhysicsRawPrime0/RAW/v1/000/374/668/00000/2c2a7732-f798-4476-a5ad-4cad128814bc.root',
-        '/store/hidata/HIRun2023A/HIPhysicsRawPrime0/RAW/v1/000/374/668/00000/319cfb86-b372-4bca-bdb1-10cab9e8f35c.root',
-        '/store/hidata/HIRun2023A/HIPhysicsRawPrime0/RAW/v1/000/374/668/00000/31f0c344-fc8c-4caa-b626-e554f33922e7.root',
-        '/store/hidata/HIRun2023A/HIPhysicsRawPrime0/RAW/v1/000/374/668/00000/55301665-73c4-4705-aacc-057c418b018c.root',
-        '/store/hidata/HIRun2023A/HIPhysicsRawPrime0/RAW/v1/000/374/668/00000/644068c1-6704-4541-b418-d5bf9386821f.root',
-        '/store/hidata/HIRun2023A/HIPhysicsRawPrime0/RAW/v1/000/374/668/00000/6471fc98-d2dd-44c8-949b-2b784f0a9d6b.root',
-        '/store/hidata/HIRun2023A/HIPhysicsRawPrime0/RAW/v1/000/374/668/00000/92f8ee2d-6568-41da-9d3c-801932b2b21e.root',
-        '/store/hidata/HIRun2023A/HIPhysicsRawPrime0/RAW/v1/000/374/668/00000/a413413e-8846-4ce3-8942-77b64a0d70b4.root',
-        '/store/hidata/HIRun2023A/HIPhysicsRawPrime0/RAW/v1/000/374/668/00000/b7ad0780-4ab4-465d-a798-04305d937414.root',
-        '/store/hidata/HIRun2023A/HIPhysicsRawPrime0/RAW/v1/000/374/668/00000/d8367394-0671-4900-bbc3-ab9f8c1b8286.root',
-        '/store/hidata/HIRun2023A/HIPhysicsRawPrime0/RAW/v1/000/374/668/00000/f4223860-5628-452b-b5cb-77821e9ce393.root',
-        '/store/hidata/HIRun2023A/HIPhysicsRawPrime0/RAW/v1/000/374/668/00000/fdcebb4b-ea2c-4402-9480-ab964605f1e7.root'
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/162dd1da-4f2f-471b-8705-3475bb5656b1.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/1886c6a3-4293-4354-92a4-ed77c567dc57.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/1be774cb-f804-4a5f-a9d2-fbe6fc66aac7.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/273f56d0-845a-4b7f-8b59-ce178a954e84.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/29e60b0d-4e0e-4914-86af-5e9eb0d08be3.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/2ef86765-bbad-4a8c-b9d8-d21cc2920121.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/3877ffca-360a-4da0-b3c0-2914cbcaeb97.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/4b4c39e7-0784-4ac1-a0db-0042bc0881df.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/4cfc8af6-d7d7-401d-80ea-863d30edd17f.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/647b8675-4776-41fe-913f-4c4fd908ee86.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/7f603741-c690-481c-b045-ae4983593239.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/861b0a7f-4096-4d0d-971e-fa4ff1573537.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/88854faa-5f9c-4aba-aa33-18a242df9f99.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/9007f75f-1aca-4339-a488-39eec9858d1a.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/90a92861-7a7e-4659-b081-36b30c05e8e1.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/90b01689-e036-451c-a1dc-c30ad16e50a0.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/a74b2946-1047-4932-b15d-8dd5c1d77d4d.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/ae72fc0e-953c-4d57-8179-282ec39c3178.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/bdf83e70-6b6d-431c-a322-0a9d55146325.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/c0660786-46a1-4b45-bd32-c652fa721027.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/c1272579-7dbe-424c-af2c-a91e97a9e782.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/c73c96b7-5211-4bec-8c6d-e922429b30a2.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/dc0e4710-8973-40e4-9fe2-27f824e4a5e4.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/dca0740d-1dc3-472d-8a61-4e692e86cd50.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/dca1a79a-db01-4531-85c9-1b42174a16b3.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/df9a9aa5-c451-4296-92dd-93a18d52f9cb.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/e0dc806c-731f-4fa3-ae9f-9c2ef70ba609.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/e42e3123-4b67-4702-9739-cde816897b4e.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/e4edd3e1-0d31-43cf-8a0f-1d323c70daa4.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/e67447e6-9a29-45d1-8baf-a41b54cb07f8.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/e7166d50-fb24-4167-b887-fd43c5bbdb55.root',
+    '/store/hidata/HIRun2023A/HIZeroBias0/RAW/v1/000/375/703/00000/fb29205e-cbfa-4d5b-969f-ac11fcf05ebf.root',
     ),
     dropDescendantsOfDroppedBranches=cms.untracked.bool(False),
     inputCommands = cms.untracked.vstring(
@@ -44,6 +63,7 @@ process.source = cms.Source("PoolSource",
         'drop *_gtStage2Digis_*_RECO',
     )
 )
+
 
 # Number of events we want to process, -1 = all events
 process.maxEvents = cms.untracked.PSet(
@@ -374,7 +394,7 @@ process.pphfCoincFilter3Th6 = cms.Path(process.phfCoincFilter3Th6)
 process.pphfCoincFilter4Th6 = cms.Path(process.phfCoincFilter4Th6)
 process.pphfCoincFilter5Th6 = cms.Path(process.phfCoincFilter5Th6)
 process.pAna = cms.EndPath(process.skimanalysis)
-
+'''
 process.Trigger = cms.EDFilter("TriggerResultsFilter",
     triggerConditions = cms.vstring(                                                                                                                                                                               
         'HLT_HIZeroBias_HighRate_*',           # Example HLT path
@@ -390,7 +410,7 @@ process.Trigger = cms.EDFilter("TriggerResultsFilter",
 
 for path in process.paths:
     getattr(process,path)._seq = process.Trigger * getattr(process,path)._seq
-
+'''
 # Path and EndPath definitions
 process.raw2digi_step = cms.Path(process.RawToDigi)
 process.endjob_step = cms.EndPath(process.endOfProcess)
@@ -457,7 +477,7 @@ process.schedule.append(process.HFAdc)
 
 process.hcalDigis.saveQIE10DataNSamples = cms.untracked.vint32(6) 
 process.hcalDigis.saveQIE10DataTags = cms.untracked.vstring( "MYDATA" )
-
+'''
 process.Trigger = cms.EDFilter( "TriggerResultsFilter",
       triggerConditions = cms.vstring(                                                                                                                                                                               
         "HLT_HIZeroBias_HighRate_v*" # Replace with your favorite HLT path
@@ -472,5 +492,5 @@ process.Trigger = cms.EDFilter( "TriggerResultsFilter",
 
 for path in process.paths:
     getattr(process,path)._seq = process.Trigger * getattr(process,path)._seq
-
-MassReplaceInputTag(process, new="rawPrimeDataRepacker", old="rawDataCollector")
+'''
+MassReplaceInputTag(process, new="rawDataRepacker", old="rawDataCollector")
